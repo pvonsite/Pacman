@@ -4,10 +4,18 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
-    GameEngine::initSDL();
+    GameEngine newgame;
+    newgame.initSDL();
 
-    SDL_Delay(5000);
+    bool quit = false;
+    SDL_Event e;
 
-    GameEngine::quitSDL();
-    return 0;
+    while (!quit) {
+        while (SDL_PollEvent(&e) != 0) {
+            if (e.type == SDL_QUIT) quit = true;
+        }
+    }
+
+    newgame.quitSDL();
+    //return 0;
 }

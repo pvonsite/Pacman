@@ -11,11 +11,19 @@ class Log {
     private:
         string area;
     public:
+        Log() {
+
+        }
+
+        ~Log() {
+            area = "";
+        }
+
         Log(string area) {
             this->area = area;
         }
 
-        void Status(const char* log) {
+        void Status(const string log) {
             cout << area << " " << log << endl;
         }
 };
