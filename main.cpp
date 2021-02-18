@@ -1,21 +1,16 @@
-#include <iostream>
 #include "GameEngine.h"
+#include <iostream>
 
 using namespace std;
 
 int main(int argc, char* argv[]) {
-    GameEngine newgame;
-    newgame.initSDL();
 
-    bool quit = false;
-    SDL_Event e;
+    GameEngine::initSDL();
 
-    while (!quit) {
-        while (SDL_PollEvent(&e) != 0) {
-            if (e.type == SDL_QUIT) quit = true;
-        }
+    while (GameEngine::getRunStatus()) {
+        GameEngine::handleEvent();
     }
 
-    newgame.quitSDL();
-    //return 0;
+    GameEngine::quitSDL();
+    return 0;
 }

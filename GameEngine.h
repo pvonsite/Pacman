@@ -6,29 +6,29 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <string>
 #include "Log.h"
 
 class GameEngine {
     private:
-        SDL_Window* window = nullptr;
-        SDL_Renderer* renderer = nullptr;
+        static SDL_Window* window;
+        static SDL_Renderer* renderer;
 
-        const int SCREEN_WIDTH = 800;
-        const int SCREEN_HEIGHT = 600;
-        const std::string Window_Tittle = "Pacman";
+        static bool Running;
+
+        static const int SCREEN_WIDTH = 800;
+        static const int SCREEN_HEIGHT = 600;
     public:
-        GameEngine() {
-            window = nullptr;
-            renderer = nullptr;
+
+        static bool getRunStatus() {
+            return Running;
         }
-        ~GameEngine() {
-            SDL_DestroyRenderer(renderer);
-            SDL_DestroyWindow(window);
-            renderer = nullptr;
-            window = nullptr;
-        }
-        void initSDL();
-        void quitSDL();
+
+        static void initSDL();
+
+        static void quitSDL();
+
+        static void handleEvent();
 };
 
 #endif // _GAMEENGINE_H_
