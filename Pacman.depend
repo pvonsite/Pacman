@@ -1,0 +1,19 @@
+# depslib dependency file v1.0
+1613621899 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\main.cpp
+	<iostream>
+	"GameEngine.h"
+
+1613622268 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\gameengine.h
+	<string>
+	<SDL.h>
+	<SDL_image.h>
+	<SDL_ttf.h>
+	<SDL_mixer.h>
+
+1613621701 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\log.h
+	<iostream>
+
+1613622225 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\gameengine.cpp
+	"GameEngine.h"
+	"Log.h"
+
