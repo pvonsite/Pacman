@@ -10,7 +10,7 @@ Nội dung các version, các update, cách di chuyển các Ghost sẽ dc cập
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-My first game with C++ and SDL 2.0
+My first game with C++ and SDL 2.0.
 This is the game Pacman, a famous game in the 80s - 90s, the era of the arcade machine.
 Basically, the game is for 1 player. Players will control the yellow character Pacman, hovering in the maze to eat coins, from the pursuit of the Ghosts.
 The maze will include paths, coins, super coins (something that helps you eat Ghosts in a while).
