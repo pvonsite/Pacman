@@ -8,6 +8,7 @@
 #include <SDL_ttf.h>
 #include <string>
 #include "Log.h"
+#include "Texture.h"
 
 class GameEngine {
     private:
@@ -25,6 +26,8 @@ class GameEngine {
         }
 
         static void initSDL();
+
+        static void initTexture();
 
         static void quitSDL();
 

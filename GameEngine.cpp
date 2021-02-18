@@ -11,6 +11,8 @@ SDL_Window* GameEngine::window;
 SDL_Renderer* GameEngine::renderer;
 SDL_Event e;
 
+Texture gameTexture;
+
 bool GameEngine::Running = false;
 
 
@@ -77,4 +79,8 @@ void GameEngine::handleEvent() {
             GameEngine::Running = false;
         }
     }
+}
+
+void GameEngine :: initTexture() {
+    gameTexture.loadTexture(renderer);
 }
