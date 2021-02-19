@@ -1,7 +1,6 @@
 # depslib dependency file v1.0
-1613664116 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\main.cpp
-	"GameEngine.h"
-	<iostream>
+1613757905 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\main.cpp
+	"Window.h"
 
 1613648757 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\gameengine.h
 	<SDL.h>
@@ -30,4 +29,23 @@
 	"Maze.h"
 
 1613649104 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\maze.h
+
+1613759091 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\window.cpp
+	"Window.h"
+	"LogStatus.h"
+
+1613758988 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\window.h
+	<SDL.h>
+	<string>
+	"Engine.h"
+
+1613756658 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\logstatus.h
+	<iostream>
+	<string>
+
+1613760074 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\engine.h
+	<SDL.h>
+
+1613760112 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\engine.cpp
+	"Engine.h"
 
