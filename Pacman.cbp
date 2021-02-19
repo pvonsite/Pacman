@@ -35,6 +35,10 @@
 		<Unit filename="GameEngine.cpp" />
 		<Unit filename="GameEngine.h" />
 		<Unit filename="Log.h" />
+		<Unit filename="Maze.cpp" />
+		<Unit filename="Maze.h" />
+		<Unit filename="Texture.cpp" />
+		<Unit filename="Texture.h" />
 		<Unit filename="main.cpp" />
 		<Extensions />
 	</Project>
