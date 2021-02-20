@@ -4,16 +4,29 @@
 #define _ENGINE_H_
 
 #include <SDL.h>
+#include "Map.h"
+#include "TextureSrc.h"
 
 class Engine {
+    private:
+        Map* map;
+        TextureSrc* objectTexture;
     public:
         Engine() {
-            init();
+            map = nullptr;
+            objectTexture = nullptr;
         }
 
-        void init();
+        ~Engine() {
+            map = nullptr;
+            delete map;
+            objectTexture = nullptr;
+            delete objectTexture;
+        }
 
-        void handleEvent();
+        void init(SDL_Renderer* &renderer);
+
+        void handleEvent(SDL_Event &e);
 
         void render(SDL_Renderer* &renderer);
 };

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1613757905 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\main.cpp
+1613817161 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\main.cpp
 	"Window.h"
 
 1613648757 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\gameengine.h
@@ -30,11 +30,11 @@
 
 1613649104 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\maze.h
 
-1613759091 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\window.cpp
+1613826244 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\window.cpp
 	"Window.h"
 	"LogStatus.h"
 
-1613758988 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\window.h
+1613826477 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\window.h
 	<SDL.h>
 	<string>
 	"Engine.h"
@@ -43,9 +43,27 @@
 	<iostream>
 	<string>
 
-1613760074 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\engine.h
+1613822168 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\engine.h
 	<SDL.h>
+	"Map.h"
+	"TextureSrc.h"
 
-1613760112 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\engine.cpp
+1613827268 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\engine.cpp
 	"Engine.h"
+
+1613821707 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\map.h
+	"LogStatus.h"
+	<fstream>
+	<iostream>
+
+1613819981 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\map.cpp
+	"Map.h"
+
+1613826214 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\texturesrc.h
+	<SDL.h>
+	<SDL_image.h>
+	"LogStatus.h"
+
+1613832512 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\texturesrc.cpp
+	"TextureSrc.h"
 

@@ -13,10 +13,12 @@ class Window {
         SDL_Renderer* renderer = nullptr;
         Engine* engine = nullptr;
 
+        LogStatus* Console = new LogStatus("Window");
+
         bool Running = false;
 
-        static const int SCREEN_WIDTH = 800;
-        static const int SCREEN_HEIGHT = 600;
+        static const int SCREEN_WIDTH = 448;
+        static const int SCREEN_HEIGHT = 496;
         const std::string WINDOW_TITTLE = "Pacman";
 
     public:

@@ -1,8 +1,6 @@
 #include "Window.h"
 #include "LogStatus.h"
 
-LogStatus* Console = new LogStatus("Window");
-
 void Window::initSDL() {
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
         Console->Status( SDL_GetError() );
@@ -37,13 +35,14 @@ void Window::quitSDL() {
 void Window::runGame() {
     SDL_Event e;
     engine = new Engine();
+    engine->init(renderer);
 
     while (Running) {
         while (SDL_PollEvent(&e) != 0) {
             if (e.type == SDL_QUIT) Running = false;
-            engine->handleEvent();
+            engine->handleEvent(e);
         }
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
         engine->render(renderer);
