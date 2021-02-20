@@ -9,13 +9,12 @@ void TextureSrc::loadTileTexture(SDL_Renderer* &renderer) {
     else {
         tileTexture = SDL_CreateTextureFromSurface(renderer, Image);
 
-        int cnt = -1;
-        for (int i = 0; i < 8; ++i) {
-            for (int j = 0; j < 4; ++j) {
-                tileSprite[++cnt] = {i * 8, j * 8, 8, 8};
-            }
+        int x = 0, y = 0;
+        for (int i = 0; i < 32; ++i) {
+            tileSprite[i] = {x, y, 16, 16};
+            y += 17;
+            if (i % 4 == 3) x += 17, y = 0;
         }
-        std::cout << cnt;
 
         //tileSprite[26].h = 7;
 
