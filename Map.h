@@ -25,6 +25,8 @@ class Map {
         }
 
         int getTileID(int x, int y);
+
+        bool isWall(std::pair<int, int> tileID);
 };
 
 #endif // _MAP_H_

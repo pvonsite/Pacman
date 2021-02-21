@@ -31,3 +31,7 @@ Map::Map() {
 int Map::getTileID(int x, int y) {
     return tile[y][x];
 }
+
+bool Map::isWall(std::pair<int, int> tileID) {
+    return tile[tileID.second][tileID.first] != 26 && tile[tileID.second][tileID.first] != 30 && tile[tileID.second][tileID.first] != 27;
+}

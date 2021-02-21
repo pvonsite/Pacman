@@ -13,19 +13,34 @@ class TextureSrc {
 
         SDL_Texture* tileTexture;
         SDL_Rect tileSprite[32];
+
+        SDL_Texture* pacmanTexture;
+        SDL_Rect pacmanUP[3];
+        SDL_Rect pacmanDOWN[3];
+        SDL_Rect pacmanLEFT[3];
+        SDL_Rect pacmanRIGHT[3];
+        SDL_Rect pacmanDEAD[11];
     public:
         TextureSrc() {
             tileTexture = nullptr;
+            pacmanTexture = nullptr;
         }
 
         ~TextureSrc() {
             SDL_DestroyTexture(tileTexture);
             tileTexture = nullptr;
+
+            SDL_DestroyTexture(pacmanTexture);
+            pacmanTexture = nullptr;
         }
 
         void loadTileTexture(SDL_Renderer* &renderer);
 
         void renderTileTexture(SDL_Renderer* &renderer, int tileID, SDL_Rect* dsRect);
+
+        void loadPacmanTexture(SDL_Renderer* &renderer);
+
+        void renderPacmanTexture(SDL_Renderer* &renderer, int posX, int posY, int dir);
 };
 
 #endif // _TEXTURESRC_H_
