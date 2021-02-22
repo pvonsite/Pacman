@@ -35,7 +35,15 @@ class Object {
             return scrPosY;
         }
 
-        int getOldDir() {
+        int getTileX() const {
+            return tileX;
+        }
+
+        int getTileY() const {
+            return tileY;
+        }
+
+        int getOldDir() const {
             return dir % 2;
         }
 
@@ -45,11 +53,7 @@ class Object {
             this->dir = dir;
         }
 
-        std::pair<int, int> getNextTileID(int tempDir = 0);
-
         void changePos(int &newPosX, int &newPosY) {
-            scrPosX = newPosX * 16;
-            scrPosY = newPosY * 16;
             tileX = newPosX;
             tileY = newPosY;
         }

@@ -38,8 +38,6 @@ class Engine {
         void render(SDL_Renderer* &renderer);
 
         void loop();
-
-        bool pacmanCanMove();
 };
 
 #endif // _ENGINE_H_

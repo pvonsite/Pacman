@@ -30,7 +30,7 @@
 
 1613649104 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\maze.h
 
-1613928256 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\window.cpp
+1613999689 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\window.cpp
 	"Window.h"
 	"LogStatus.h"
 
@@ -43,21 +43,22 @@
 	<iostream>
 	<string>
 
-1613912811 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\engine.h
+1613998609 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\engine.h
 	<SDL.h>
 	"Map.h"
 	"TextureSrc.h"
 	"Pacman.h"
 
-1613929199 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\engine.cpp
+1614007710 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\engine.cpp
 	"Engine.h"
 
-1613905999 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\map.h
+1614008182 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\map.h
 	"LogStatus.h"
 	<fstream>
 	<iostream>
+	<algorithm>
 
-1613921776 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\map.cpp
+1614006782 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\map.cpp
 	"Map.h"
 
 1613881467 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\texturesrc.h
@@ -68,19 +69,21 @@
 1613920272 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\texturesrc.cpp
 	"TextureSrc.h"
 
-1613929303 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\pacman.h
+1614007761 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\pacman.h
 	"Object.h"
 	<SDL.h>
+	<stack>
 
-1613929142 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\object.h
+1614006912 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\object.h
 	<algorithm>
 
-1613928205 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\object.cpp
+1614006903 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\object.cpp
 	"Object.h"
 	<iostream>
 	<cmath>
 
-1613929177 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\pacman.cpp
+1614007748 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\pacman.cpp
 	"Pacman.h"
 	<iostream>
+	<algorithm>
 
