@@ -1,0 +1,14 @@
+Ngày 04: 21/02/2021
+
+Nội dung: 
+	Đã tạo xong Map cho trò chơi.
+	Tạo dc Pacman và phương thức di chuyển.
+	Tuy nhiên vẫn đang bị bug và cách di chuyển chưa mượt.
+
+------------------------------------------------------------------------
+Day 04: 21/02/2021
+
+Details:
+	Created Map for the game.
+	Created Pacman and his movement.
+	However, there are some bugs and his movement is not smooth enough.
