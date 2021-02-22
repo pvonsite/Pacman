@@ -6,7 +6,7 @@ Về cơ bản, game dành cho 1 người chơi. Người chơi sẽ điều khi
 Mê cung sẽ gồm các lối đi, coins, super coins(thứ giúp bạn ăn dc các con Ghost trong 1 thời gian).
 Trong tương lai, các mê cung sẽ dc nghiên cứu để có thể sinh một cách ngẫu nhiên, tăng tính thú vị và độ khó của trò chơi.
 Dùng các phím W, A, S, D để di chuyển (cũng có thể dùng các phím mũi tên, sẽ update trong tương lai).
-Nội dung các version, các update, cách di chuyển các Ghost sẽ dc cập nhật sau.
+Nội dung các version, các update, cách di chuyển các Ghost sẽ dc cập nhật sau (trong tệp Develop Process).
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -16,4 +16,4 @@ Basically, the game is for 1 player. Players will control the yellow character P
 The maze will include paths, coins, super coins (something that helps you eat Ghosts in a while).
 In the future, the mazes will be researched for random generates, increasing the fun and difficulty of the game.
 Use the keys W, A, S, D to move (can also use the arrow keys, will update in the future).
-The content of versions, updates, and how to move the Ghosts will be updated later.
+The content of versions, updates, and how to move the Ghosts will be updated later (in file Develop Process).
