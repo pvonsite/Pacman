@@ -21,6 +21,11 @@ class TextureSrc {
         SDL_Rect pacmanRIGHT[3];
         SDL_Rect pacmanDEAD[11];
     public:
+        static const int UP = 1;
+        static const int RIGHT = 2;
+        static const int DOWN = 3;
+        static const int LEFT = 4;
+
         TextureSrc() {
             tileTexture = nullptr;
             pacmanTexture = nullptr;
@@ -40,7 +45,7 @@ class TextureSrc {
 
         void loadPacmanTexture(SDL_Renderer* &renderer);
 
-        void renderPacmanTexture(SDL_Renderer* &renderer, int posX, int posY, int dir);
+        void renderPacmanTexture(SDL_Renderer* &renderer, int posX, int posY, int dir, int &frame);
 };
 
 #endif // _TEXTURESRC_H_

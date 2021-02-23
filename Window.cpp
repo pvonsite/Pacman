@@ -44,7 +44,7 @@ void Window::runGame() {
         }
         engine->loop();
 
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         SDL_RenderClear(renderer);
 
         engine->render(renderer);

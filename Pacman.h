@@ -14,7 +14,7 @@ class Pacman : public Object{
         std::stack< std::pair<int, std::pair<int, int> > > Special;
 
     public:
-        static const int pacmanVelocity = 2;
+        static const int pacmanVelocity = 1;
 
         Pacman();
 
@@ -51,6 +51,10 @@ class Pacman : public Object{
         void handleEvent(SDL_Event &e);
 
         void eraseSpecial();
+
+        void eatCoins() {
+            ++eatenCoins;
+        }
 };
 
 #endif // _PACMAN_H_

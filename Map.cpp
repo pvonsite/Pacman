@@ -130,7 +130,10 @@ void Map::NextCrossTileID() {
     }
 }
 
-void Map::eatCoins(int pacmanTileX, int pacmanTileY) {
-    if (tile[pacmanTileY][pacmanTileX] == 26 || tile[pacmanTileY][pacmanTileX] == 27)
+bool Map::eatCoins(int pacmanTileX, int pacmanTileY) {
+    if (tile[pacmanTileY][pacmanTileX] == 26 || tile[pacmanTileY][pacmanTileX] == 27) {
         tile[pacmanTileY][pacmanTileX] = 30;
+        return true;
+    }
+    return false;
 }

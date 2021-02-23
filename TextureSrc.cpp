@@ -28,7 +28,9 @@ void TextureSrc::renderTileTexture(SDL_Renderer* &renderer, int tileID, SDL_Rect
 }
 
 void TextureSrc::loadPacmanTexture(SDL_Renderer* &renderer) {
-    SDL_Surface* Image = IMG_Load("things.png");
+    SDL_Surface* Image = IMG_Load("Pacman and Ghost Texture.png");
+    //SDL_SetColorKey(Image, SDL_TRUE, SDL_MapRGB(Image->format, 0, 0, 0));
+    //SDL_SetColorKey(Image, SDL_TRUE, SDL_MapRGB(Image->format, 1, 1, 1));
 
     if (Image == nullptr) {
         Console->Status( IMG_GetError() );
@@ -36,14 +38,16 @@ void TextureSrc::loadPacmanTexture(SDL_Renderer* &renderer) {
     else {
         pacmanTexture = SDL_CreateTextureFromSurface(renderer, Image);
 
+        int posTexX = 0, posTexY = 0;
+
         /// Pacman goes up
-        for (int i = 0; i < 3; ++i) pacmanUP[i] = {0, i * 15, 15, 15};
+        for (int i = 0; i < 3; ++i) pacmanUP[i] = {posTexX, posTexY, 30, 30}, posTexX += 31;
         /// Pacman goes down
-        for (int i = 3; i < 6; ++i) pacmanDOWN[i % 3] = {0, i * 15, 15, 15};
+        for (int i = 3; i < 6; ++i) pacmanDOWN[i % 3] = {posTexX, posTexY, 30, 30}, posTexX += 31;
         /// Pacman goes left
-        for (int i = 6; i < 9; ++i) pacmanLEFT[i % 3] = {0, i * 15, 15, 15};
+        for (int i = 6; i < 9; ++i) pacmanLEFT[i % 3] = {posTexX, posTexY, 30, 30}, posTexX += 31;
         /// Pacman goes right
-        for (int i = 9; i < 12; ++i) pacmanRIGHT[i % 3] = {0, i * 15, 15, 15};
+        for (int i = 9; i < 12; ++i) pacmanRIGHT[i % 3] = {posTexX, posTexY, 30, 30}, posTexX += 31;
         /// Pacman dead
         for (int i = 0; i < 11; ++i) pacmanDEAD[i] = {75, i * 15, 15, 15};
 
@@ -54,14 +58,19 @@ void TextureSrc::loadPacmanTexture(SDL_Renderer* &renderer) {
     Image = nullptr;
 }
 
-void TextureSrc::renderPacmanTexture(SDL_Renderer* &renderer, int posX, int posY, int dir) {
+void TextureSrc::renderPacmanTexture(SDL_Renderer* &renderer, int posX, int posY, int dir, int &frame) {
     SDL_Rect srcRect, dsRect;
     dsRect = {posX - 7, posY - 7, 30, 30};
+
+    if (frame == 30) frame = 0;
+    int pacmanFrame = frame / 10;
+
     switch (dir) {
-        case 1: srcRect = pacmanUP[0]; break;
-        case 2: srcRect = pacmanRIGHT[0]; break;
-        case 3: srcRect = pacmanDOWN[0]; break;
-        case 4: srcRect = pacmanLEFT[0]; break;
+        case 0: srcRect = pacmanUP[0]; break;
+        case UP:    srcRect = pacmanUP   [ pacmanFrame ]; break;
+        case RIGHT: srcRect = pacmanRIGHT[ pacmanFrame ]; break;
+        case DOWN:  srcRect = pacmanDOWN [ pacmanFrame ]; break;
+        case LEFT:  srcRect = pacmanLEFT [ pacmanFrame ]; break;
         case 5: srcRect = pacmanDEAD[0]; break;
     }
 

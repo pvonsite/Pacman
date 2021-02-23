@@ -48,7 +48,7 @@ class Map {
 
         void NextCrossTileID();
 
-        void eatCoins(int pacmanTileX, int pacmanTileY);
+        bool eatCoins(int pacmanTileX, int pacmanTileY);
 };
 
 #endif // _MAP_H_

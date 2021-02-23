@@ -13,6 +13,8 @@ class Engine {
         Map* map;
         Pacman* pacman;
         TextureSrc* objectTexture;
+
+        int frame = 0;
     public:
         Engine() {
             map = nullptr;
