@@ -24,6 +24,8 @@ class Map {
         static const int RIGHT = 2;
         static const int DOWN = 3;
         static const int LEFT = 4;
+        static const int notCoin = 0;
+        static const int superCoins = 27;
 
         Map();
 
@@ -48,7 +50,7 @@ class Map {
 
         void NextCrossTileID();
 
-        bool eatCoins(int pacmanTileX, int pacmanTileY);
+        int eatCoins(const int &pacmanTileX, const int &pacmanTileY);
 };
 
 #endif // _MAP_H_

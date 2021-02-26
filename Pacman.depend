@@ -30,7 +30,7 @@
 
 1613649104 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\maze.h
 
-1614091275 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\window.cpp
+1614275052 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\window.cpp
 	"Window.h"
 	"LogStatus.h"
 
@@ -43,47 +43,54 @@
 	<iostream>
 	<string>
 
-1614090461 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\engine.h
+1614274056 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\engine.h
 	<SDL.h>
 	"Map.h"
 	"TextureSrc.h"
 	"Pacman.h"
+	"Ghost.h"
 
-1614091297 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\engine.cpp
+1614329986 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\engine.cpp
 	"Engine.h"
+	<limits>
 
-1614092891 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\map.h
+1614177319 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\map.h
 	"LogStatus.h"
 	<fstream>
 	<iostream>
 	<algorithm>
 
-1614092882 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\map.cpp
+1614274018 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\map.cpp
 	"Map.h"
 
-1614090963 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\texturesrc.h
+1614245959 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\texturesrc.h
 	<SDL.h>
 	<SDL_image.h>
 	"LogStatus.h"
 
-1614092790 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\texturesrc.cpp
+1614245997 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\texturesrc.cpp
 	"TextureSrc.h"
 
-1614092942 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\pacman.h
+1614325543 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\pacman.h
 	"Object.h"
-	<SDL.h>
 	<stack>
 
-1614006912 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\object.h
+1614276182 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\object.h
 	<algorithm>
 
-1614006903 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\object.cpp
+1614312196 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\object.cpp
 	"Object.h"
 	<iostream>
 	<cmath>
 
-1614007748 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\pacman.cpp
+1614328850 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\pacman.cpp
 	"Pacman.h"
 	<iostream>
 	<algorithm>
+
+1614325543 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\ghost.h
+	"Object.h"
+
+1614276652 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\ghost.cpp
+	"Ghost.h"
 

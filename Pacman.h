@@ -4,22 +4,27 @@
 #define _PACMAN_H_
 
 #include "Object.h"
-#include <SDL.h>
 #include <stack>
 
 class Pacman : public Object{
     private:
         int eatenCoins;
+        bool dead;
         std::stack<int> Direction;
         std::stack< std::pair<int, std::pair<int, int> > > Special;
 
     public:
-        static const int pacmanVelocity = 1;
+        static const int pacmanVelocity = 2;
 
         Pacman();
 
         ~Pacman() {
             eatenCoins = 0;
+            dead = false;
+        }
+
+        bool isDead() const {
+            return dead;
         }
 
         bool emptyDirStack() {
@@ -47,8 +52,6 @@ class Pacman : public Object{
         void stopmoving();
 
         void turn();
-
-        void handleEvent(SDL_Event &e);
 
         void eraseSpecial();
 

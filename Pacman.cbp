@@ -34,6 +34,8 @@
 		</Compiler>
 		<Unit filename="Engine.cpp" />
 		<Unit filename="Engine.h" />
+		<Unit filename="Ghost.cpp" />
+		<Unit filename="Ghost.h" />
 		<Unit filename="LogStatus.h" />
 		<Unit filename="Map.cpp" />
 		<Unit filename="Map.h" />

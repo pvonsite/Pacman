@@ -6,6 +6,9 @@ typedef std::pair<int, std::pair<int, int> > IP;
 
 Pacman::Pacman() : Object(13, 23) {
     eatenCoins = 0;
+    dead       = false;
+    while (!Direction.empty()) Direction.pop();
+    while (!Special.empty())   Special.pop();
 }
 
 void Pacman::pushtoStack(int newDir) {
@@ -44,7 +47,7 @@ void Pacman::turn() {
     if (!Direction.empty()) stopmoving();
     Direction.push(Special.top().first);
     Special.pop();
-    moving();
+    //moving();
 }
 
 void Pacman::stopmoving() {

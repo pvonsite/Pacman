@@ -39,6 +39,9 @@ std::pair<int, int> Map::getnextCrossID(int x, int y, int dir) {
 }
 
 bool Map::isWall(std::pair<int, int> tileID) {
+    if (tileID == II(0, 14) || tileID == II(27, 14)) return false;
+    if (tileID.first < 1 || tileID.first > 26) return true;
+    if (tileID.second < 1 || tileID.second > 29) return true;
     return tile[tileID.second][tileID.first] != 26 && tile[tileID.second][tileID.first] != 30 && tile[tileID.second][tileID.first] != 27;
 }
 
@@ -130,10 +133,14 @@ void Map::NextCrossTileID() {
     }
 }
 
-bool Map::eatCoins(int pacmanTileX, int pacmanTileY) {
-    if (tile[pacmanTileY][pacmanTileX] == 26 || tile[pacmanTileY][pacmanTileX] == 27) {
+int Map::eatCoins(const int &pacmanTileX, const int &pacmanTileY) {
+    if (tile[pacmanTileY][pacmanTileX] == 26) {
         tile[pacmanTileY][pacmanTileX] = 30;
-        return true;
+        return 26;
     }
-    return false;
+    if (tile[pacmanTileY][pacmanTileX] == 27) {
+        tile[pacmanTileY][pacmanTileX] = 30;
+        return superCoins;
+    }
+    return 0;
 }

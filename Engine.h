@@ -7,14 +7,20 @@
 #include "Map.h"
 #include "TextureSrc.h"
 #include "Pacman.h"
+#include "Ghost.h"
 
 class Engine {
     private:
         Map* map;
         Pacman* pacman;
+        Ghost* blinky;
+        Ghost* pinky;
+        Ghost* inky;
+        Ghost* clyde;
         TextureSrc* objectTexture;
 
-        int frame = 0;
+        int pacmanFrame = 0;
+        int ghostFrame = 0;
     public:
         Engine() {
             map = nullptr;
@@ -40,6 +46,8 @@ class Engine {
         void render(SDL_Renderer* &renderer);
 
         void loop();
+
+        void ghostMove(Ghost* &ghost);
 };
 
 #endif // _ENGINE_H_

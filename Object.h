@@ -10,7 +10,7 @@ class Object {
         int scrPosX, scrPosY;
         int velX = 0, velY = 0;
         int tileX, tileY;
-        int dir = 1;
+        int dir;
     public:
         static const int UP = 1;
         static const int RIGHT = 2;
@@ -24,8 +24,6 @@ class Object {
         Object(int tileX, int tileY, int velX = 0, int velY = 0);
 
         void move();
-
-        void stop();
 
         int getPosX() const {
             return this->scrPosX;
@@ -43,20 +41,13 @@ class Object {
             return tileY;
         }
 
-        int getOldDir() const {
-            return dir % 2;
-        }
-
         void changeVelocityDir(int velX, int velY, int dir) {
             this->velX = velX;
             this->velY = velY;
             this->dir = dir;
         }
 
-        void changePos(int &newPosX, int &newPosY) {
-            tileX = newPosX;
-            tileY = newPosY;
-        }
+        void goThroughTunnel();
 };
 
 #endif // _OBJECT_H_

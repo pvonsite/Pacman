@@ -24,3 +24,16 @@ void Object::move() {
     if (scrPosY % 16 == 0) tileY = scrPosY / 16;
     else tileY = (scrPosY + 8) / 16;
 }
+
+void Object::goThroughTunnel() {
+    if (scrPosY == 224) {
+        if (dir == LEFT && scrPosX == 2) {
+            tileX = 27;
+            scrPosX = 434;
+        }
+        else if (dir == RIGHT && scrPosX == 430) {
+            tileX = 0;
+            scrPosX = -2;
+        }
+    }
+}
