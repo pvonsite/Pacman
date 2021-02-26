@@ -1,0 +1,16 @@
+Ngày 08: 26/02/2021
+
+Nội dung: 
+	Thêm các ghost vào trong trò chơi.
+	Thêm AI của các ghost.
+	Các ghost giờ đã có thể đuổi theo Pacman nhưng chúng chưa giết dc 
+Pacman.
+
+--------------------------------------------------------------------------
+Day 08: 26/02/2021
+
+Details:
+	Adding ghosts into the game.
+	Adding each ghost's AI.
+	Now, ghosts can chase the Pacman but they haven't been able to
+kill him yet.
