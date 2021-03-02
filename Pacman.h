@@ -9,7 +9,6 @@
 class Pacman : public Object{
     private:
         int eatenCoins;
-        bool dead;
         std::stack<int> Direction;
         std::stack< std::pair<int, std::pair<int, int> > > Special;
 
@@ -20,11 +19,6 @@ class Pacman : public Object{
 
         ~Pacman() {
             eatenCoins = 0;
-            dead = false;
-        }
-
-        bool isDead() const {
-            return dead;
         }
 
         bool emptyDirStack() {

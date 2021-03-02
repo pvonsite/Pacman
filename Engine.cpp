@@ -1,5 +1,7 @@
 #include "Engine.h"
 #include <limits>
+#include <random>
+#include <time.h>
 
 using namespace std;
 
@@ -18,38 +20,36 @@ void Engine::init(SDL_Renderer* &renderer) {
     objectTexture = new TextureSrc();
     objectTexture->loadTileTexture(renderer);
     objectTexture->loadPacmanAndGhostTexture(renderer);
-    //pacman->pushtoStack(1);
 }
 
 void Engine::handleEvent(SDL_Event &e) {
     if (e.type == SDL_KEYDOWN) {
         if (e.key.keysym.sym == SDLK_DOWN || e.key.keysym.sym == SDLK_UP || e.key.keysym.sym == SDLK_LEFT || e.key.keysym.sym == SDLK_RIGHT
          || e.key.keysym.sym == SDLK_s    || e.key.keysym.sym == SDLK_w  || e.key.keysym.sym == SDLK_a    || e.key.keysym.sym == SDLK_d    ) {
-            int newDir  = 0;
-            int lastDir = 0;
+            int newDir  = -1;
+            int lastDir = -1;
             int pacmanTileX = pacman->getTileX();
             int pacmanTileY = pacman->getTileY();
             int pacmanPosX  = pacman->getPosX();
             int pacmanPosY  = pacman->getPosY();
+            if (pacman->isDead()) return;
 
             if (!pacman->emptyDirStack()) lastDir = pacman->getDir();
 
             switch (e.key.keysym.sym) {
-                case SDLK_UP   : newDir = 1; break;
-                case SDLK_DOWN : newDir = 3; break;
-                case SDLK_LEFT : newDir = 4; break;
-                case SDLK_RIGHT: newDir = 2; break;
-                case SDLK_w    : newDir = 1; break;
-                case SDLK_s    : newDir = 3; break;
-                case SDLK_a    : newDir = 4; break;
-                case SDLK_d    : newDir = 2; break;
+                case SDLK_UP   : newDir = 0; break;
+                case SDLK_DOWN : newDir = 2; break;
+                case SDLK_LEFT : newDir = 3; break;
+                case SDLK_RIGHT: newDir = 1; break;
+                case SDLK_w    : newDir = 0; break;
+                case SDLK_s    : newDir = 2; break;
+                case SDLK_a    : newDir = 3; break;
+                case SDLK_d    : newDir = 1; break;
             }
 
-            cout << lastDir << " " << newDir << endl;
-            if (lastDir == 0) {
+            if (lastDir == -1) {
                 if (map->canChangeDir(pacmanTileX, pacmanTileY, newDir)) {
-                    //pacman->eraseSpecial();
-                    cout << 3;
+                    pacman->eraseSpecial();
                     pacman->pushtoStack(newDir);
                 }
             }
@@ -63,7 +63,7 @@ void Engine::handleEvent(SDL_Event &e) {
                 else {
                     std::pair<int, int> nextCross = map->getnextCrossID(pacmanTileX, pacmanTileY, lastDir);
 
-                    if (lastDir % 2 == 0 && newDir % 2 == 1) {
+                    if (lastDir % 2 == 1 && newDir % 2 == 0) {
                         if (pacmanPosY == pacmanTileY * 16) {
                             if (map->canChangeDir(pacmanTileX, pacmanTileY, newDir)) {
                                     pacman->pushSpecialStack(newDir, II(pacmanTileX, pacmanTileY));
@@ -73,7 +73,7 @@ void Engine::handleEvent(SDL_Event &e) {
                             }
                         }
                     }
-                    else if (lastDir % 2 == 1 && newDir % 2 == 0) {
+                    else if (lastDir % 2 == 0 && newDir % 2 == 1) {
                         if (pacmanPosX == pacmanTileX * 16) {
                             if (map->canChangeDir(pacmanTileX, pacmanTileY, newDir)) {
                                     pacman->pushSpecialStack(newDir, II(pacmanTileX, pacmanTileY));
@@ -99,27 +99,54 @@ void Engine::render(SDL_Renderer* &renderer) {
         }
     }
 
-    int dir = 0;
+    int dir = -1;
     if (!pacman->emptyDirStack()) dir = pacman->getDir();
-    objectTexture->renderPacmanTexture(renderer, pacman->getPosX(), pacman->getPosY(), dir, pacmanFrame);
+    if (pacman->isDead())
+        objectTexture->renderPacmanTexture(renderer, pacman->getPosX(), pacman->getPosY(), TextureSrc::DEAD_PACMAN, pacmanFrame);
+    else objectTexture->renderPacmanTexture(renderer, pacman->getPosX(), pacman->getPosY(), dir, pacmanFrame);
 
-    objectTexture->renderGhostTexture(renderer, blinky->getPosX(), blinky->getPosY(), TextureSrc::BLINKY, blinky->getGhostDir(), ghostFrame);
-    objectTexture->renderGhostTexture(renderer,  pinky->getPosX(),  pinky->getPosY(), TextureSrc::PINKY , pinky->getGhostDir() , ghostFrame);
-    objectTexture->renderGhostTexture(renderer,   inky->getPosX(),   inky->getPosY(), TextureSrc::INKY  , inky->getGhostDir()  , ghostFrame);
-    objectTexture->renderGhostTexture(renderer,  clyde->getPosX(),  clyde->getPosY(), TextureSrc::CLYDE , clyde->getGhostDir() , ghostFrame);
+    if (!pacman->isDead()) {
+        if (blinky->isDead())
+            objectTexture->renderGhostTexture(renderer, blinky->getPosX(), blinky->getPosY(), TextureSrc::GHOST_SPIRIT, blinky->getGhostDir(), ghostFrame);
+        else if (blinky->isFrighten())
+            objectTexture->renderGhostTexture(renderer, blinky->getPosX(), blinky->getPosY(), TextureSrc::BLINKY, TextureSrc::FRIGHTEN_GHOST, ghostFrame);
+        else
+            objectTexture->renderGhostTexture(renderer, blinky->getPosX(), blinky->getPosY(), TextureSrc::BLINKY, blinky->getGhostDir(), ghostFrame);
+        ///
+        if (pinky->isDead())
+            objectTexture->renderGhostTexture(renderer, pinky->getPosX(), pinky->getPosY(), TextureSrc::GHOST_SPIRIT, pinky->getGhostDir(), ghostFrame);
+        else if (pinky->isFrighten())
+            objectTexture->renderGhostTexture(renderer, pinky->getPosX(), pinky->getPosY(), TextureSrc::PINKY, TextureSrc::FRIGHTEN_GHOST, ghostFrame);
+        else
+            objectTexture->renderGhostTexture(renderer, pinky->getPosX(), pinky->getPosY(), TextureSrc::PINKY, pinky->getGhostDir(), ghostFrame);
+        ///
+        if (inky->isDead())
+            objectTexture->renderGhostTexture(renderer, inky->getPosX(), inky->getPosY(), TextureSrc::GHOST_SPIRIT, inky->getGhostDir(), ghostFrame);
+        else if (inky->isFrighten())
+            objectTexture->renderGhostTexture(renderer, inky->getPosX(), inky->getPosY(), TextureSrc::INKY, TextureSrc::FRIGHTEN_GHOST, ghostFrame);
+        else
+            objectTexture->renderGhostTexture(renderer, inky->getPosX(), inky->getPosY(), TextureSrc::INKY, inky->getGhostDir(), ghostFrame);
+        ///
+        if (clyde->isDead())
+            objectTexture->renderGhostTexture(renderer, clyde->getPosX(), clyde->getPosY(), TextureSrc::GHOST_SPIRIT, clyde->getGhostDir(), ghostFrame);
+        else if (clyde->isFrighten())
+            objectTexture->renderGhostTexture(renderer, clyde->getPosX(), clyde->getPosY(), TextureSrc::CLYDE, TextureSrc::FRIGHTEN_GHOST, ghostFrame);
+        else
+            objectTexture->renderGhostTexture(renderer, clyde->getPosX(), clyde->getPosY(), TextureSrc::CLYDE, clyde->getGhostDir(), ghostFrame);
+    }
 }
 
 
 void Engine::loop() {
+    if (pacman->isDead()) return;
     int pacmanTileX = pacman->getTileX();
     int pacmanTileY = pacman->getTileY();
     int pacmanPosX = pacman->getPosX();
     int pacmanPosY = pacman->getPosY();
-    int lastDir = 0;
+    int lastDir = -1;
     if (!pacman->emptyDirStack()) lastDir = pacman->getDir();
-    //cout << lastDir << endl;
 
-    if (!pacman->isDead() && lastDir != 0) {
+    if (!pacman->isDead() && lastDir != -1) {
         if (pacmanTileX * 16 == pacmanPosX && pacmanTileY * 16 == pacmanPosY) {
             if (map->iscrossRoad(pacmanTileX, pacmanTileY)) {
                 if (!pacman->emptySpecial()) pacman->turn();
@@ -140,55 +167,64 @@ void Engine::loop() {
     pacmanTileX = pacman->getTileX();
     pacmanTileY = pacman->getTileY();
     int typeOfCoin = map->eatCoins(pacmanTileX, pacmanTileY);
-    /*
+
     if (typeOfCoin != Map::notCoin) {
         pacman->eatCoins();
         if (typeOfCoin == Map::superCoins) {
-            blinky->setFrighten(true);
-            pinky ->setFrighten(true);
-            inky  ->setFrighten(true);
-            clyde ->setFrighten(true);
+            blinky->setFrighten(true); blinky->setDir((blinky->getGhostDir() + 2) % 4);
+            pinky ->setFrighten(true); pinky ->setDir((pinky ->getGhostDir() + 2) % 4);
+            inky  ->setFrighten(true); inky  ->setDir((inky  ->getGhostDir() + 2) % 4);
+            clyde ->setFrighten(true); clyde ->setDir((clyde ->getGhostDir() + 2) % 4);
         }
     }
-    */
 
     pacmanPosX = pacman->getPosX();
     pacmanPosY = pacman->getPosY();
-    lastDir = 0;
+    lastDir = -1;
     if (!pacman->emptyDirStack()) lastDir = pacman->getDir();
 
     if (!pacman->isDead()) {
-        if (!blinky->isFrighten())
+        if (blinky->isDead())
+            blinky->setDestination(13, 11);
+        else if (!blinky->isScattering())
             blinky->setDestination(pacmanTileX, pacmanTileY);
+        else blinky->setDestination(Ghost::DEFAULT_BLINKY_TILE_X, Ghost::DEFAULT_BLINKY_TILE_Y);
 
-        if (!pinky->isFrighten()) {
-            //if (lastDir == 0) pinky->setDestination(pacmanTileX, pacmanTileY);
-            //else {
-                switch (lastDir) {
-                    case Map::UP:
-                        pinky->setDestination(pacmanTileX, pacmanTileY - 4);
-                        break;
-                    case Map::DOWN:
-                        pinky->setDestination(pacmanTileX, pacmanTileY + 4);
-                        break;
-                    case Map::LEFT:
-                        pinky->setDestination(pacmanTileX - 4, pacmanTileY);
-                        break;
-                    case Map::RIGHT:
-                        pinky->setDestination(pacmanTileX + 4, pacmanTileY);
-                        break;
-                }
-           // }
+        if (pinky->isDead())
+            pinky->setDestination(13, 11);
+        else if (!pinky->isScattering()) {
+            switch (lastDir) {
+                case Map::UP:
+                    pinky->setDestination(pacmanTileX, pacmanTileY - 4);
+                    break;
+                case Map::DOWN:
+                    pinky->setDestination(pacmanTileX, pacmanTileY + 4);
+                    break;
+                case Map::LEFT:
+                    pinky->setDestination(pacmanTileX - 4, pacmanTileY);
+                    break;
+                case Map::RIGHT:
+                    pinky->setDestination(pacmanTileX + 4, pacmanTileY);
+                    break;
+            }
         }
-        if (!inky->isFrighten())
-            inky->setDestination(2 * pacmanTileX - blinky->getTileX(), 2 * pacmanTileY - blinky->getTileY());
+        else pinky->setDestination(Ghost::DEFAULT_PINKY_TILE_X, Ghost::DEFAULT_PINKY_TILE_Y);
 
-        if (!clyde->isFrighten()) {
+        if (inky->isDead())
+            inky->setDestination(13, 11);
+        else if (!inky->isScattering())
+            inky->setDestination(2 * pacmanTileX - blinky->getTileX(), 2 * pacmanTileY - blinky->getTileY());
+        else inky->setDestination(Ghost::DEFAULT_INKY_TILE_X, Ghost::DEFAULT_INKY_TILE_Y);
+
+        if (clyde->isDead())
+            clyde->setDestination(13, 11);
+        if (!clyde->isScattering()) {
             if ((pacmanTileX - clyde->getTileX()) * (pacmanTileX - clyde->getTileX()) + (pacmanTileY - clyde->getTileY()) * (pacmanTileY - clyde->getTileY()) <= 64)
                 clyde->setDestination(Ghost::DEFAULT_CLYDE_TILE_X, Ghost::DEFAULT_CLYDE_TILE_Y);
             else
                 clyde->setDestination(pacmanTileX, pacmanTileY);
         }
+        else clyde->setDestination(Ghost::DEFAULT_CLYDE_TILE_X, Ghost::DEFAULT_CLYDE_TILE_Y);
     }
     ghostMove(blinky);
     ghostMove(pinky);
@@ -201,6 +237,10 @@ void Engine::loop() {
     inky  ->goThroughTunnel();
     clyde ->goThroughTunnel();
 
+    pacmanMeatGhost(blinky);
+    pacmanMeatGhost(pinky);
+    pacmanMeatGhost(inky);
+    pacmanMeatGhost(clyde);
 }
 
 void Engine::ghostMove(Ghost* &ghost) {
@@ -214,55 +254,90 @@ void Engine::ghostMove(Ghost* &ghost) {
 
     if (ghostTileX * 16 == ghostPosX && ghostTileY * 16 == ghostPosY) {
         if (map->iscrossRoad(ghostTileX, ghostTileY)) {
-            int distanceUP, distanceDOWN, distanceLEFT, distanceRIGHT;
-            distanceUP = distanceDOWN = distanceLEFT = distanceRIGHT = __INT32_MAX__;
-
-            if (map->canChangeDir(ghostTileX, ghostTileY, Map::UP))
-                distanceUP = (ghostTileX - ghostNextTileX) * (ghostTileX - ghostNextTileX) + (ghostTileY - 1 - ghostNextTileY) * (ghostTileY - 1 - ghostNextTileY);
-
-            if (map->canChangeDir(ghostTileX, ghostTileY, Map::DOWN))
-                distanceDOWN = (ghostTileX - ghostNextTileX) * (ghostTileX - ghostNextTileX) + (ghostTileY + 1 - ghostNextTileY) * (ghostTileY + 1 - ghostNextTileY);
-
-            if (map->canChangeDir(ghostTileX, ghostTileY, Map::LEFT))
-                distanceLEFT = (ghostTileX - 1 - ghostNextTileX) * (ghostTileX - 1 - ghostNextTileX) + (ghostTileY - ghostNextTileY) * (ghostTileY - ghostNextTileY);
-
-            if (map->canChangeDir(ghostTileX, ghostTileY, Map::RIGHT))
-                distanceRIGHT = (ghostTileX + 1 - ghostNextTileX) * (ghostTileX + 1 - ghostNextTileX) + (ghostTileY - ghostNextTileY) * (ghostTileY - ghostNextTileY);
-
-            int distanceMIN;
-            if (ghostOldDir == Map::UP) {
-                distanceMIN = std::min(distanceUP, std::min(distanceLEFT, distanceRIGHT));
-                if (distanceMIN == distanceUP) ghost->setDir(Map::UP);
-                else if (distanceMIN == distanceLEFT) ghost->setDir(Map::LEFT);
-                else ghost->setDir(Map::RIGHT);
+            if (ghost->isFrighten()) {
+                std::stack<int> whichDir;
+                if (ghostOldDir % 2 == 1) {
+                    if (map->canChangeDir(ghostTileX, ghostTileY, Map::UP)) whichDir.push(0);
+                    if (map->canChangeDir(ghostTileX, ghostTileY, Map::DOWN)) whichDir.push(2);
+                    if (map->canChangeDir(ghostTileX, ghostTileY, ghostOldDir)) whichDir.push(ghostOldDir);
+                }
+                else {
+                    if (map->canChangeDir(ghostTileX, ghostTileY, Map::LEFT)) whichDir.push(3);
+                    if (map->canChangeDir(ghostTileX, ghostTileY, Map::RIGHT)) whichDir.push(1);
+                    if (map->canChangeDir(ghostTileX, ghostTileY, ghostOldDir)) whichDir.push(ghostOldDir);
+                }
+                int dir = rand() % (int) whichDir.size() + 1;
+                while (dir > 1) whichDir.pop(), --dir;
+                ghost->setDir(whichDir.top());
+                while (!whichDir.empty()) whichDir.pop();
             }
-            if (ghostOldDir == Map::DOWN) {
-                distanceMIN = std::min(distanceDOWN, std::min(distanceLEFT, distanceRIGHT));
-                if (distanceMIN == distanceDOWN) ghost->setDir(Map::DOWN);
-                else if (distanceMIN == distanceLEFT) ghost->setDir(Map::LEFT);
-                else ghost->setDir(Map::RIGHT);
-            }
-            if (ghostOldDir == Map::LEFT) {
-                distanceMIN = std::min(distanceUP, std::min(distanceDOWN, distanceLEFT));
-                if (distanceMIN == distanceUP) ghost->setDir(Map::UP);
-                else if (distanceMIN == distanceDOWN) ghost->setDir(Map::DOWN);
-                else ghost->setDir(Map::LEFT);
-            }
-            if (ghostOldDir == Map::RIGHT) {
-                distanceMIN = std::min(distanceUP, std::min(distanceRIGHT, distanceDOWN));
-                if (distanceMIN == distanceUP) ghost->setDir(Map::UP);
-                else if (distanceMIN == distanceRIGHT) ghost->setDir(Map::RIGHT);
-                else ghost->setDir(Map::DOWN);
-            }
+            else {
+                int distanceUP, distanceDOWN, distanceLEFT, distanceRIGHT;
+                distanceUP = distanceDOWN = distanceLEFT = distanceRIGHT = __INT32_MAX__;
 
+                if (map->canChangeDir(ghostTileX, ghostTileY, Map::UP))
+                    distanceUP = (ghostTileX - ghostNextTileX) * (ghostTileX - ghostNextTileX) + (ghostTileY - 1 - ghostNextTileY) * (ghostTileY - 1 - ghostNextTileY);
+
+                if (map->canChangeDir(ghostTileX, ghostTileY, Map::DOWN))
+                    distanceDOWN = (ghostTileX - ghostNextTileX) * (ghostTileX - ghostNextTileX) + (ghostTileY + 1 - ghostNextTileY) * (ghostTileY + 1 - ghostNextTileY);
+
+                if (map->canChangeDir(ghostTileX, ghostTileY, Map::LEFT))
+                    distanceLEFT = (ghostTileX - 1 - ghostNextTileX) * (ghostTileX - 1 - ghostNextTileX) + (ghostTileY - ghostNextTileY) * (ghostTileY - ghostNextTileY);
+
+                if (map->canChangeDir(ghostTileX, ghostTileY, Map::RIGHT))
+                    distanceRIGHT = (ghostTileX + 1 - ghostNextTileX) * (ghostTileX + 1 - ghostNextTileX) + (ghostTileY - ghostNextTileY) * (ghostTileY - ghostNextTileY);
+
+                int distanceMIN;
+                if (ghostOldDir == Map::UP) {
+                    distanceMIN = std::min(distanceUP, std::min(distanceLEFT, distanceRIGHT));
+                    if (distanceMIN == distanceUP) ghost->setDir(Map::UP);
+                    else if (distanceMIN == distanceLEFT) ghost->setDir(Map::LEFT);
+                    else ghost->setDir(Map::RIGHT);
+                }
+                if (ghostOldDir == Map::DOWN) {
+                    distanceMIN = std::min(distanceDOWN, std::min(distanceLEFT, distanceRIGHT));
+                    if (distanceMIN == distanceDOWN) ghost->setDir(Map::DOWN);
+                    else if (distanceMIN == distanceLEFT) ghost->setDir(Map::LEFT);
+                    else ghost->setDir(Map::RIGHT);
+                }
+                if (ghostOldDir == Map::LEFT) {
+                    distanceMIN = std::min(distanceUP, std::min(distanceDOWN, distanceLEFT));
+                    if (distanceMIN == distanceUP) ghost->setDir(Map::UP);
+                    else if (distanceMIN == distanceDOWN) ghost->setDir(Map::DOWN);
+                    else ghost->setDir(Map::LEFT);
+                }
+                if (ghostOldDir == Map::RIGHT) {
+                    distanceMIN = std::min(distanceUP, std::min(distanceRIGHT, distanceDOWN));
+                    if (distanceMIN == distanceUP) ghost->setDir(Map::UP);
+                    else if (distanceMIN == distanceRIGHT) ghost->setDir(Map::RIGHT);
+                    else ghost->setDir(Map::DOWN);
+                }
+            }
         }
         if (map->canChangeDir(ghostTileX, ghostTileY, ghost->getGhostDir())) ghost->moving();
     }
     else {
         if (map->canChangeDir(ghostTileX, ghostTileY, ghost->getGhostDir())) ghost->moving();
         else {
-            if (ghostTileX * 16 == ghostPosX && ghostTileY * 16 != ghostPosY && ghost->getGhostDir() % 2 == 1) ghost->moving();
-            else if (ghostTileY * 16 == ghostPosY && ghostTileX * 16 != ghostPosX && ghost->getGhostDir() % 2 == 0) ghost->moving();
+            if (ghostTileX * 16 == ghostPosX && ghostTileY * 16 != ghostPosY && ghost->getGhostDir() % 2 == 0) ghost->moving();
+            else if (ghostTileY * 16 == ghostPosY && ghostTileX * 16 != ghostPosX && ghost->getGhostDir() % 2 == 1) ghost->moving();
+        }
+    }
+    if (ghost->isDead() && ghostPosX == ghostNextTileX * 16 && ghostPosY == ghostNextTileY * 16) {
+        ghost->setDead(false);
+    }
+}
+
+void Engine::pacmanMeatGhost(Ghost* &ghost) {
+    if (ghost->isDead()) return;
+    if ((pacman->getPosX() == ghost->getPosX() && abs(pacman->getPosY() - ghost->getPosY()) <= 3) ||
+        (pacman->getPosY() == ghost->getPosY() && abs(pacman->getPosX() - ghost->getPosX()) <= 3)) {
+        if (ghost->isFrighten()) {
+            ghost->setDead(true);
+            ghost->setFrighten(false);
+        }
+        else {
+            pacman->setDead(true);
         }
     }
 }

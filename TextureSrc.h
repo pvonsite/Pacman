@@ -22,20 +22,22 @@ class TextureSrc {
         SDL_Rect pacmanDEAD[11];
 
         SDL_Texture* ghostTexture;
-        SDL_Rect ghost[4][5][2];
-        SDL_Rect frightenedGhost[2];
+        SDL_Rect ghost[5][5][2];
     public:
-        static const int UP = 1;
-        static const int RIGHT = 2;
-        static const int DOWN = 3;
-        static const int LEFT = 4;
-        static const int DEAD = 5;
+        static const int UP = 0;
+        static const int RIGHT = 1;
+        static const int DOWN = 2;
+        static const int LEFT = 3;
+
+        static const int FRIGHTEN_GHOST = 4;
+        static const int DEAD_PACMAN = 5;
 
         static const int BLINKY = 0;
         static const int PINKY  = 1;
         static const int INKY   = 2;
         static const int CLYDE  = 3;
-        static const int TOTAL_GHOST = 4;
+        static const int GHOST_SPIRIT = 4;
+        static const int TOTAL_GHOST = 5;
 
         TextureSrc() {
             tileTexture = nullptr;

@@ -6,7 +6,6 @@ typedef std::pair<int, std::pair<int, int> > IP;
 
 Pacman::Pacman() : Object(13, 23) {
     eatenCoins = 0;
-    dead       = false;
     while (!Direction.empty()) Direction.pop();
     while (!Special.empty())   Special.pop();
 }
@@ -28,13 +27,13 @@ void Pacman::pushSpecialStack(int newDir, std::pair<int, int> nextCross) {
 
 void Pacman::moving() {
     if (!Direction.empty()) {
-        int velX = 0, velY = 0, dir = 0;
+        int velX = 0, velY = 0, dir = -1;
 
         switch (Direction.top()) {
-            case UP   : velX = 0; velY = -pacmanVelocity; dir = 1; break;
-            case DOWN : velX = 0; velY =  pacmanVelocity; dir = 3; break;
-            case LEFT : velX = -pacmanVelocity; velY = 0; dir = 4; break;
-            case RIGHT: velX =  pacmanVelocity; velY = 0; dir = 2; break;
+            case UP   : velX = 0; velY = -pacmanVelocity; dir = 0; break;
+            case DOWN : velX = 0; velY =  pacmanVelocity; dir = 2; break;
+            case LEFT : velX = -pacmanVelocity; velY = 0; dir = 3; break;
+            case RIGHT: velX =  pacmanVelocity; velY = 0; dir = 1; break;
         }
 
         changeVelocityDir(velX, velY, dir);

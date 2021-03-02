@@ -11,11 +11,12 @@ class Object {
         int velX = 0, velY = 0;
         int tileX, tileY;
         int dir;
+        bool dead;
     public:
-        static const int UP = 1;
-        static const int RIGHT = 2;
-        static const int DOWN = 3;
-        static const int LEFT = 4;
+        static const int UP = 0;
+        static const int RIGHT = 1;
+        static const int DOWN = 2;
+        static const int LEFT = 3;
         static const int OBJECT_WIDTH  = 30;
         static const int OBJECT_HEIGHT = 30;
         static const int SCREEN_WIDTH = 448;
@@ -25,8 +26,12 @@ class Object {
 
         void move();
 
+        bool isDead() {
+            return dead;
+        }
+
         int getPosX() const {
-            return this->scrPosX;
+            return scrPosX;
         }
 
         int getPosY() const {
@@ -45,6 +50,10 @@ class Object {
             this->velX = velX;
             this->velY = velY;
             this->dir = dir;
+        }
+
+        void setDead(bool status) {
+            dead = status;
         }
 
         void goThroughTunnel();

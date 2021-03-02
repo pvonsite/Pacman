@@ -48,6 +48,8 @@ class Engine {
         void loop();
 
         void ghostMove(Ghost* &ghost);
+
+        void pacmanMeatGhost(Ghost* &ghost);
 };
 
 #endif // _ENGINE_H_

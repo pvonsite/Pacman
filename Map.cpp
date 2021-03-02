@@ -75,14 +75,14 @@ bool Map::besideCrossIsWall(std::pair<int, int> Cross, int newDir) {
 void Map::findingCrossRoad() {
     for (int x = 0; x < MAP_WIDTH; ++x) {
         for (int y = 0; y < MAP_HEIGHT; ++y) {
-            for (int dir = 1; dir < 5; ++dir) markCross[y][x][dir] = false;
+            for (int dir = 0; dir < 4; ++dir) markCross[y][x][dir] = false;
 
             if (tile[y][x] != 26 && tile[y][x] != 27 && tile[y][x] != 30) continue;
 
-            if (y > 0 && (tile[y - 1][x] == 26 || tile[y - 1][x] == 27 || tile[y - 1][x] == 30)) markCross[y][x][1] = true;
-            if (y < 30 && (tile[y + 1][x] == 26 || tile[y + 1][x] == 27 || tile[y + 1][x] == 30)) markCross[y][x][3] = true;
-            if (x > 0 && (tile[y][x - 1] == 26 || tile[y][x - 1] == 27 || tile[y][x - 1] == 30)) markCross[y][x][4] = true;
-            if (x < 27 && (tile[y][x + 1] == 26 || tile[y][x + 1] == 27 || tile[y][x + 1] == 30)) markCross[y][x][2] = true;
+            if (y > 0 && (tile[y - 1][x] == 26 || tile[y - 1][x] == 27 || tile[y - 1][x] == 30)) markCross[y][x][0] = true;
+            if (y < 30 && (tile[y + 1][x] == 26 || tile[y + 1][x] == 27 || tile[y + 1][x] == 30)) markCross[y][x][2] = true;
+            if (x > 0 && (tile[y][x - 1] == 26 || tile[y][x - 1] == 27 || tile[y][x - 1] == 30)) markCross[y][x][3] = true;
+            if (x < 27 && (tile[y][x + 1] == 26 || tile[y][x + 1] == 27 || tile[y][x + 1] == 30)) markCross[y][x][1] = true;
         }
     }
 }

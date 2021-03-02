@@ -17,13 +17,13 @@ class Map {
         LogStatus* Console = new LogStatus("Map");
 
         int tile[MAP_HEIGHT][MAP_WIDTH];
-        std::pair<int, int> nextCrossID[MAP_HEIGHT][MAP_WIDTH][5];
-        bool markCross[MAP_HEIGHT][MAP_WIDTH][5];
+        std::pair<int, int> nextCrossID[MAP_HEIGHT][MAP_WIDTH][4];
+        bool markCross[MAP_HEIGHT][MAP_WIDTH][4];
     public:
-        static const int UP = 1;
-        static const int RIGHT = 2;
-        static const int DOWN = 3;
-        static const int LEFT = 4;
+        static const int UP = 0;
+        static const int RIGHT = 1;
+        static const int DOWN = 2;
+        static const int LEFT = 3;
         static const int notCoin = 0;
         static const int superCoins = 27;
 

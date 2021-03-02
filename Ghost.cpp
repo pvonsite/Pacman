@@ -2,7 +2,7 @@
 
 Ghost::Ghost(int tileX, int tileY) : Object(tileX, tileY) {
     frighten = 0;
-    dead = false;
+    scattering = false;
     ghostDir = LEFT;
     nextTileX = tileX, nextTileY = tileY;
 }
@@ -14,7 +14,7 @@ void Ghost::setDestination(int tilX, int tilY) {
 
 void Ghost::moving() {
     int velX, velY, dir;
-    velX = velY = dir = 0;
+    velX = velY = 0; dir = -1;
 
     switch (ghostDir) {
         case UP:    velY -= ghostVelocity; dir = UP;    break;
