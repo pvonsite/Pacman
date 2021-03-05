@@ -34,6 +34,7 @@
 		</Compiler>
 		<Unit filename="Engine.cpp" />
 		<Unit filename="Engine.h" />
+		<Unit filename="GameManager.h" />
 		<Unit filename="Ghost.cpp" />
 		<Unit filename="Ghost.h" />
 		<Unit filename="LogStatus.h" />
@@ -45,6 +46,8 @@
 		<Unit filename="Pacman.h" />
 		<Unit filename="TextureSrc.cpp" />
 		<Unit filename="TextureSrc.h" />
+		<Unit filename="TickManager.cpp" />
+		<Unit filename="TickManager.h" />
 		<Unit filename="Window.cpp" />
 		<Unit filename="Window.h" />
 		<Unit filename="main.cpp" />

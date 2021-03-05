@@ -8,6 +8,7 @@
 #include "TextureSrc.h"
 #include "Pacman.h"
 #include "Ghost.h"
+#include "TickManager.h"
 
 class Engine {
     private:
@@ -18,14 +19,13 @@ class Engine {
         Ghost* inky;
         Ghost* clyde;
         TextureSrc* objectTexture;
-
-        int pacmanFrame = 0;
-        int ghostFrame = 0;
+        TickManager* tickManager;
     public:
         Engine() {
             map = nullptr;
             pacman = nullptr;
             objectTexture = nullptr;
+            tickManager = nullptr;
         }
 
         ~Engine() {
@@ -37,6 +37,15 @@ class Engine {
 
             objectTexture = nullptr;
             delete objectTexture;
+
+            tickManager = nullptr;
+            delete tickManager;
+        }
+
+        void revivalPacman();
+
+        void resetTick() {
+            tickManager->resetTick();
         }
 
         void init(SDL_Renderer* &renderer);
@@ -50,6 +59,8 @@ class Engine {
         void ghostMove(Ghost* &ghost);
 
         void pacmanMeatGhost(Ghost* &ghost);
+
+        void renderGhost(SDL_Renderer* &renderer, Ghost* &ghost, int ghostID);
 };
 
 #endif // _ENGINE_H_

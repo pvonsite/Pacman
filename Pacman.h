@@ -6,9 +6,10 @@
 #include "Object.h"
 #include <stack>
 
-class Pacman : public Object{
+class Pacman : public Object {
     private:
-        int eatenCoins;
+        int lifes;
+        int eatenCoins = 0;
         std::stack<int> Direction;
         std::stack< std::pair<int, std::pair<int, int> > > Special;
 
@@ -18,7 +19,10 @@ class Pacman : public Object{
         Pacman();
 
         ~Pacman() {
+            lifes = 0;
             eatenCoins = 0;
+            while (!Direction.empty()) Direction.pop();
+            while (!Special.empty()) Special.pop();
         }
 
         bool emptyDirStack() {
@@ -51,6 +55,17 @@ class Pacman : public Object{
 
         void eatCoins() {
             ++eatenCoins;
+        }
+
+        bool getLife() {
+            if (lifes > 0) --lifes;
+            return (lifes > 0);
+        }
+
+        void respawn() {
+            resetPacmanTile();
+            while (!Direction.empty()) Direction.pop();
+            while (!Special.empty())   Special.pop();
         }
 };
 

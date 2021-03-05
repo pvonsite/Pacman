@@ -6,6 +6,7 @@
 #include <SDL.h>
 #include <string>
 #include "Engine.h"
+#include "GameManager.h"
 
 class Window {
     private:

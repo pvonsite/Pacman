@@ -26,15 +26,15 @@ class Ghost : public Object {
 
         Ghost(int tileX, int tileY);
 
-        int getNextTileX()  {
+        int getNextTileX() const {
             return nextTileX;
         }
 
-        int getNextTileY()  {
+        int getNextTileY() const {
             return nextTileY;
         }
 
-        int getGhostDir() {
+        int getGhostDir() const {
             return ghostDir;
         }
 
@@ -42,13 +42,13 @@ class Ghost : public Object {
             ghostDir = dir;
         }
 
-        void setFrighten( bool status) {
+        void setFrighten(const bool status) {
             if (status) frighten = 500;
             else frighten = 0;
         }
 
-        void setScattering() {
-
+        void setScattering(const bool status) {
+            scattering = status;
         }
 
         bool isScattering() {
@@ -57,7 +57,6 @@ class Ghost : public Object {
 
         bool isFrighten() {
             if (frighten > 0) --frighten;
-            //std::cout << frighten<<std::endl;
             return (frighten > 0);
         }
 

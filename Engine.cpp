@@ -20,6 +20,23 @@ void Engine::init(SDL_Renderer* &renderer) {
     objectTexture = new TextureSrc();
     objectTexture->loadTileTexture(renderer);
     objectTexture->loadPacmanAndGhostTexture(renderer);
+    tickManager = new TickManager();
+    tickManager->resetTick();
+    //blinky->setDir(Map::LEFT);
+    //pinky->setDir(Map::UP);
+    srand(time(nullptr));
+}
+
+void Engine::revivalPacman() {
+    pacman->respawn();
+    delete blinky;
+    blinky = new Ghost(13, 11);
+    delete pinky;
+    pinky  = new Ghost(13, 11);
+    delete inky;
+    inky   = new Ghost(11, 11);
+    delete clyde;
+    clyde  = new Ghost(15, 11);
 }
 
 void Engine::handleEvent(SDL_Event &e) {
@@ -57,7 +74,7 @@ void Engine::handleEvent(SDL_Event &e) {
                 if (newDir % 2 == lastDir % 2) {
                     if (map->canChangeDir(pacmanTileX, pacmanTileY, newDir)) {
                         pacman->pushtoStack(newDir);
-                        if (!pacman->emptySpecial()) pacman->eraseSpecial();
+                        pacman->eraseSpecial();
                     }
                 }
                 else {
@@ -91,7 +108,6 @@ void Engine::handleEvent(SDL_Event &e) {
 
 void Engine::render(SDL_Renderer* &renderer) {
     SDL_Rect dsRect;
-    ++pacmanFrame; ++ghostFrame;
     for (int i = 0; i < 28; ++i) {
         for (int j = 0; j < 31; ++j) {
             dsRect = {i * 16, j * 16, 16, 16};
@@ -101,43 +117,28 @@ void Engine::render(SDL_Renderer* &renderer) {
 
     int dir = -1;
     if (!pacman->emptyDirStack()) dir = pacman->getDir();
-    if (pacman->isDead())
-        objectTexture->renderPacmanTexture(renderer, pacman->getPosX(), pacman->getPosY(), TextureSrc::DEAD_PACMAN, pacmanFrame);
-    else objectTexture->renderPacmanTexture(renderer, pacman->getPosX(), pacman->getPosY(), dir, pacmanFrame);
+    if (pacman->isDead()) {
+        if (objectTexture->pacmanIsDead()) {
+            if (pacman->getLife()) revivalPacman();
+            else init(renderer);
+        }
+        else objectTexture->renderPacmanTexture(renderer, pacman->getPosX(), pacman->getPosY(), TextureSrc::DEAD_PACMAN);
+    }
+    else objectTexture->renderPacmanTexture(renderer, pacman->getPosX(), pacman->getPosY(), dir);
+
 
     if (!pacman->isDead()) {
-        if (blinky->isDead())
-            objectTexture->renderGhostTexture(renderer, blinky->getPosX(), blinky->getPosY(), TextureSrc::GHOST_SPIRIT, blinky->getGhostDir(), ghostFrame);
-        else if (blinky->isFrighten())
-            objectTexture->renderGhostTexture(renderer, blinky->getPosX(), blinky->getPosY(), TextureSrc::BLINKY, TextureSrc::FRIGHTEN_GHOST, ghostFrame);
-        else
-            objectTexture->renderGhostTexture(renderer, blinky->getPosX(), blinky->getPosY(), TextureSrc::BLINKY, blinky->getGhostDir(), ghostFrame);
-        ///
-        if (pinky->isDead())
-            objectTexture->renderGhostTexture(renderer, pinky->getPosX(), pinky->getPosY(), TextureSrc::GHOST_SPIRIT, pinky->getGhostDir(), ghostFrame);
-        else if (pinky->isFrighten())
-            objectTexture->renderGhostTexture(renderer, pinky->getPosX(), pinky->getPosY(), TextureSrc::PINKY, TextureSrc::FRIGHTEN_GHOST, ghostFrame);
-        else
-            objectTexture->renderGhostTexture(renderer, pinky->getPosX(), pinky->getPosY(), TextureSrc::PINKY, pinky->getGhostDir(), ghostFrame);
-        ///
-        if (inky->isDead())
-            objectTexture->renderGhostTexture(renderer, inky->getPosX(), inky->getPosY(), TextureSrc::GHOST_SPIRIT, inky->getGhostDir(), ghostFrame);
-        else if (inky->isFrighten())
-            objectTexture->renderGhostTexture(renderer, inky->getPosX(), inky->getPosY(), TextureSrc::INKY, TextureSrc::FRIGHTEN_GHOST, ghostFrame);
-        else
-            objectTexture->renderGhostTexture(renderer, inky->getPosX(), inky->getPosY(), TextureSrc::INKY, inky->getGhostDir(), ghostFrame);
-        ///
-        if (clyde->isDead())
-            objectTexture->renderGhostTexture(renderer, clyde->getPosX(), clyde->getPosY(), TextureSrc::GHOST_SPIRIT, clyde->getGhostDir(), ghostFrame);
-        else if (clyde->isFrighten())
-            objectTexture->renderGhostTexture(renderer, clyde->getPosX(), clyde->getPosY(), TextureSrc::CLYDE, TextureSrc::FRIGHTEN_GHOST, ghostFrame);
-        else
-            objectTexture->renderGhostTexture(renderer, clyde->getPosX(), clyde->getPosY(), TextureSrc::CLYDE, clyde->getGhostDir(), ghostFrame);
+        renderGhost(renderer, blinky, TextureSrc::BLINKY);
+        renderGhost(renderer, pinky , TextureSrc::PINKY );
+        renderGhost(renderer, inky  , TextureSrc::INKY  );
+        renderGhost(renderer, clyde , TextureSrc::CLYDE );
     }
 }
 
 
 void Engine::loop() {
+    tickManager->updateStatus();
+
     if (pacman->isDead()) return;
     int pacmanTileX = pacman->getTileX();
     int pacmanTileY = pacman->getTileY();
@@ -171,11 +172,25 @@ void Engine::loop() {
     if (typeOfCoin != Map::notCoin) {
         pacman->eatCoins();
         if (typeOfCoin == Map::superCoins) {
+            tickManager->setStatus(TickManager::FRIGHTEN_MODE);
             blinky->setFrighten(true); blinky->setDir((blinky->getGhostDir() + 2) % 4);
             pinky ->setFrighten(true); pinky ->setDir((pinky ->getGhostDir() + 2) % 4);
             inky  ->setFrighten(true); inky  ->setDir((inky  ->getGhostDir() + 2) % 4);
             clyde ->setFrighten(true); clyde ->setDir((clyde ->getGhostDir() + 2) % 4);
         }
+    }
+
+    if (tickManager->getStatus() == TickManager::SCATTERING_MODE) {
+        blinky->setScattering(true);
+        pinky->setScattering(true);
+        inky->setScattering(true);
+        clyde->setScattering(true);
+    }
+    else {
+        blinky->setScattering(false);
+        pinky->setScattering(false);
+        inky->setScattering(false);
+        clyde->setScattering(false);
     }
 
     pacmanPosX = pacman->getPosX();
@@ -218,7 +233,7 @@ void Engine::loop() {
 
         if (clyde->isDead())
             clyde->setDestination(13, 11);
-        if (!clyde->isScattering()) {
+        else if (!clyde->isScattering()) {
             if ((pacmanTileX - clyde->getTileX()) * (pacmanTileX - clyde->getTileX()) + (pacmanTileY - clyde->getTileY()) * (pacmanTileY - clyde->getTileY()) <= 64)
                 clyde->setDestination(Ghost::DEFAULT_CLYDE_TILE_X, Ghost::DEFAULT_CLYDE_TILE_Y);
             else
@@ -340,4 +355,13 @@ void Engine::pacmanMeatGhost(Ghost* &ghost) {
             pacman->setDead(true);
         }
     }
+}
+
+void Engine::renderGhost(SDL_Renderer* &renderer, Ghost* &ghost, int ghostID) {
+    if (ghost->isDead())
+        objectTexture->renderGhostTexture(renderer, ghost->getPosX(), ghost->getPosY(), TextureSrc::GHOST_SPIRIT, ghost->getGhostDir());
+    else if (ghost->isFrighten())
+        objectTexture->renderGhostTexture(renderer, ghost->getPosX(), ghost->getPosY(), ghostID, TextureSrc::FRIGHTEN_GHOST);
+    else
+        objectTexture->renderGhostTexture(renderer, ghost->getPosX(), ghost->getPosY(), ghostID, ghost->getGhostDir());
 }

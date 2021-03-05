@@ -10,7 +10,7 @@ Object::Object(int tileX, int tileY, int velX, int velY) {
     if (velX != 0) this->velX = velX;
     if (velY != 0) this->velY = velY;
 
-    this->scrPosX = tileX * 16;
+    this->scrPosX = tileX * 16 + 8;
     this->scrPosY = tileY * 16;
     dead = false;
 }

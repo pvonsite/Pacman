@@ -23,6 +23,9 @@ class TextureSrc {
 
         SDL_Texture* ghostTexture;
         SDL_Rect ghost[5][5][2];
+
+        int pacmanFrame;
+        int ghostFrame[5];
     public:
         static const int UP = 0;
         static const int RIGHT = 1;
@@ -43,6 +46,7 @@ class TextureSrc {
             tileTexture = nullptr;
             pacmanTexture = nullptr;
             ghostTexture = nullptr;
+            for (int i = 0; i < 5; ++i) ghostFrame[i] = 0;
         }
 
         ~TextureSrc() {
@@ -54,7 +58,11 @@ class TextureSrc {
 
             SDL_DestroyTexture(ghostTexture);
             ghostTexture = nullptr;
+
+            for (int i = 0; i < 5; ++i) ghostFrame[i] = 0;
         }
+
+        bool pacmanIsDead();
 
         void loadTileTexture(SDL_Renderer* &renderer);
 
@@ -62,9 +70,9 @@ class TextureSrc {
 
         void loadPacmanAndGhostTexture(SDL_Renderer* &renderer);
 
-        void renderPacmanTexture(SDL_Renderer* &renderer, int posX, int posY, int dir, int &frame);
+        void renderPacmanTexture(SDL_Renderer* &renderer, int posX, int posY, int status);
 
-        void renderGhostTexture(SDL_Renderer* &renderer, int posX, int posY, int ghostID, int dir, int &frame);
+        void renderGhostTexture(SDL_Renderer* &renderer, int posX, int posY, int ghostID, int status);
 };
 
 #endif // _TEXTURESRC_H_

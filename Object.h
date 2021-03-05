@@ -56,6 +56,14 @@ class Object {
             dead = status;
         }
 
+        void resetPacmanTile() {
+            tileX = 13; tileY = 23;
+            velX = velY = 0;
+            scrPosX = tileX * 16 + 8;
+            scrPosY = tileY * 16;
+            dead = false;
+        }
+
         void goThroughTunnel();
 };
 
