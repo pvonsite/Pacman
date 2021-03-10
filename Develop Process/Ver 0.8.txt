@@ -1,0 +1,26 @@
+Ngày 14: 10/03/2021
+
+Nội dung:
+	Hoàn thành các chức năng cơ bản của trò chơi.
+	Trò chơi vẫn chưa có menu, score, mà chỉ có phần chính
+	Các phần đã xong:
+	- Pacman có thể di chuyển, ăn xu, ăn ghost, lúc chết sẽ dc hồi sinh.
+	- Ghost có thể chuyển giữa các mode, đi săn hoặc thăm dò, AI của chúng 
+	đã hoàn chỉnh.
+	- Pacman có 3 mạng, chết 1 mạng sẽ hồi sinh, hết 3 mạng sẽ tự động 
+	reset trò chơi(tạm thời là vậy, các chức năng đầy dủ sẽ có ở bản 1.0).
+	- Trong trò chơi gốc, giới hạn là 255 bàn, nhưng ở đây, ko có giới 
+	hạn, càng các bàn về sau thì thời gian thăm dò, hoảng sợ càng ít.
+--------------------------------------------------------------------------------
+Day 14: 10/03/2021
+
+Details: 
+	Completed the basic functions of the game.
+	The game haven't had the menu, the score yet, just the basic.
+	The parts are done:
+	- Pacman can move, eat coins, eat ghost, when dead will be revived.
+	- Ghost can switch between modes, chasing or scattering, also their AI completed.
+	- Pacman has 3 lifes, after a death he will be respawn, after 3 lifes the game will 
+	auto reset(its just for now, full functionality will be available in version 1.0).
+	- In the original game, the limit is 255 levels, but here, there is no limit,
+	the long does the game take place, the less time for scattering and frightening mode.
