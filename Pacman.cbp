@@ -32,26 +32,27 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="Engine.cpp" />
-		<Unit filename="Engine.h" />
-		<Unit filename="GameManager.h" />
-		<Unit filename="Ghost.cpp" />
-		<Unit filename="Ghost.h" />
-		<Unit filename="LogStatus.h" />
-		<Unit filename="Map.cpp" />
-		<Unit filename="Map.h" />
-		<Unit filename="Menu.cpp" />
-		<Unit filename="Menu.h" />
-		<Unit filename="Object.cpp" />
-		<Unit filename="Object.h" />
-		<Unit filename="Pacman.cpp" />
-		<Unit filename="Pacman.h" />
-		<Unit filename="TextureSrc.cpp" />
-		<Unit filename="TextureSrc.h" />
-		<Unit filename="TickManager.cpp" />
-		<Unit filename="TickManager.h" />
-		<Unit filename="Window.cpp" />
-		<Unit filename="Window.h" />
+		<Unit filename="Source/Core/Engine.cpp" />
+		<Unit filename="Source/Core/Engine.h" />
+		<Unit filename="Source/Core/Window.cpp" />
+		<Unit filename="Source/Core/Window.h" />
+		<Unit filename="Source/Manager/GameManager.cpp" />
+		<Unit filename="Source/Manager/GameManager.h" />
+		<Unit filename="Source/Manager/LogStatus.h" />
+		<Unit filename="Source/Manager/TickManager.cpp" />
+		<Unit filename="Source/Manager/TickManager.h" />
+		<Unit filename="Source/Map/Map.cpp" />
+		<Unit filename="Source/Map/Map.h" />
+		<Unit filename="Source/Object/Ghost.cpp" />
+		<Unit filename="Source/Object/Ghost.h" />
+		<Unit filename="Source/Object/Object.cpp" />
+		<Unit filename="Source/Object/Object.h" />
+		<Unit filename="Source/Object/Pacman.cpp" />
+		<Unit filename="Source/Object/Pacman.h" />
+		<Unit filename="Source/Texture/Entity/TextureSrc.cpp" />
+		<Unit filename="Source/Texture/Entity/TextureSrc.h" />
+		<Unit filename="Source/Texture/Menu/Menu.cpp" />
+		<Unit filename="Source/Texture/Menu/Menu.h" />
 		<Unit filename="main.cpp" />
 		<Extensions />
 	</Project>
