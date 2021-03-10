@@ -6,19 +6,20 @@
 #include <SDL.h>
 #include <string>
 #include "Engine.h"
-#include "GameManager.h"
+#include "../Texture/Menu/Menu.h"
 
 class Window {
     private:
         SDL_Window* window = nullptr;
         SDL_Renderer* renderer = nullptr;
         Engine* engine = nullptr;
+        Menu* menu = nullptr;
 
         LogStatus* Console = new LogStatus("Window");
 
         bool Running = false;
 
-        static const int SCREEN_WIDTH = 448;
+        static const int SCREEN_WIDTH = 882;
         static const int SCREEN_HEIGHT = 496;
         const std::string WINDOW_TITTLE = "Pacman";
 
@@ -27,10 +28,15 @@ class Window {
             window = nullptr;
             renderer = nullptr;
             engine = nullptr;
+            menu = nullptr;
         }
 
         ~Window() {
             engine = nullptr;
+            delete engine;
+
+            menu = nullptr;
+            delete menu;
 
             if (renderer != nullptr) {
                 SDL_DestroyRenderer(renderer);

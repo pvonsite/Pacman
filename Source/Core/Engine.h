@@ -4,11 +4,12 @@
 #define _ENGINE_H_
 
 #include <SDL.h>
-#include "Map.h"
-#include "TextureSrc.h"
-#include "Pacman.h"
-#include "Ghost.h"
-#include "TickManager.h"
+#include "../Map/Map.h"
+#include "../Texture/Entity/TextureSrc.h"
+#include "../Object/Pacman.h"
+#include "../Object/Ghost.h"
+#include "../Manager/TickManager.h"
+#include "../Manager/GameManager.h"
 
 class Engine {
     private:
@@ -20,12 +21,14 @@ class Engine {
         Ghost* clyde;
         TextureSrc* objectTexture;
         TickManager* tickManager;
+        GameManager* gameManager;
     public:
         Engine() {
             map = nullptr;
             pacman = nullptr;
             objectTexture = nullptr;
             tickManager = nullptr;
+            gameManager = nullptr;
         }
 
         ~Engine() {
@@ -40,13 +43,12 @@ class Engine {
 
             tickManager = nullptr;
             delete tickManager;
+
+            gameManager = nullptr;
+            delete gameManager;
         }
 
-        void revivalPacman();
-
-        void resetTick() {
-            tickManager->resetTick();
-        }
+        void respawnObject();
 
         void init(SDL_Renderer* &renderer);
 

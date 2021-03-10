@@ -1,5 +1,5 @@
 #include "Window.h"
-#include "LogStatus.h"
+#include "../Manager/LogStatus.h"
 
 void Window::initSDL() {
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
@@ -33,9 +33,12 @@ void Window::quitSDL() {
 }
 
 void Window::runGame() {
-    SDL_Event e;
     engine = new Engine();
     engine->init(renderer);
+
+    //menu = new Menu();
+    //menu->init(renderer);
+    SDL_Event e;
 
     while (Running) {
         while (SDL_PollEvent(&e) != 0) {
@@ -44,9 +47,10 @@ void Window::runGame() {
         }
         engine->loop();
 
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
+        //menu->render(renderer);
         engine->render(renderer);
 
         SDL_RenderPresent(renderer);

@@ -38,3 +38,12 @@ void Object::goThroughTunnel() {
         }
     }
 }
+
+void Object::resetObjectTile(const int tileX, const int tileY) {
+    this->tileX = tileX;
+    this->tileY = tileY;
+    dead = false;
+    velX = velY = 0;
+    scrPosX = tileX * 16 + 8;
+    scrPosY = tileY * 16;
+}

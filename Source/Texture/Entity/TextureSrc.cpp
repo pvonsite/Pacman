@@ -8,7 +8,7 @@ bool TextureSrc::pacmanIsDead() {
 }
 
 void TextureSrc::loadTileTexture(SDL_Renderer* &renderer) {
-    SDL_Surface* Image = IMG_Load("Pacman Tile Labyrinth.png");
+    SDL_Surface* Image = IMG_Load("Source/Texture/Entity Image/Pacman Tile Labyrinth.png");
 
     if (Image == nullptr) {
         Console->Status( IMG_GetError() );
@@ -35,7 +35,7 @@ void TextureSrc::renderTileTexture(SDL_Renderer* &renderer, int tileID, SDL_Rect
 }
 
 void TextureSrc::loadPacmanAndGhostTexture(SDL_Renderer* &renderer) {
-    SDL_Surface* Image = IMG_Load("Pacman and Ghost Texture.png");
+    SDL_Surface* Image = IMG_Load("Source/Texture/Entity Image/Pacman and Ghost Texture.png");
 
     if (Image == nullptr) {
         Console->Status( IMG_GetError() );
@@ -94,7 +94,7 @@ void TextureSrc::loadPacmanAndGhostTexture(SDL_Renderer* &renderer) {
 
 void TextureSrc::renderPacmanTexture(SDL_Renderer* &renderer, int posX, int posY, int status) {
     SDL_Rect srcRect, dsRect;
-    dsRect = {posX - 7, posY - 7, 30, 30};
+    dsRect = {posX - 7 + 217, posY - 7, 30, 30};
     ++pacmanFrame;
 
     if (status != DEAD_PACMAN && pacmanFrame == 30) pacmanFrame = 0;
@@ -113,7 +113,7 @@ void TextureSrc::renderPacmanTexture(SDL_Renderer* &renderer, int posX, int posY
 
 void TextureSrc::renderGhostTexture(SDL_Renderer* &renderer, int posX, int posY, int ghostID, int status) {
     SDL_Rect srcRect, dsRect;
-    dsRect = {posX - 7, posY - 7, 30, 30};
+    dsRect = {posX - 7 + 217, posY - 7, 30, 30};
     ++ghostFrame[ghostID];
 
     if (ghostFrame[ghostID] == 14) ghostFrame[ghostID] = 0;

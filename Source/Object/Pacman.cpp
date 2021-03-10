@@ -6,7 +6,6 @@ typedef std::pair<int, std::pair<int, int> > IP;
 
 Pacman::Pacman() : Object(13, 23) {
     lifes = 3;
-    eatenCoins = 0;
     while (!Direction.empty()) Direction.pop();
     while (!Special.empty())   Special.pop();
 }

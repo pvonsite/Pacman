@@ -5,7 +5,7 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
-#include "LogStatus.h"
+#include "../../Manager/LogStatus.h"
 
 class TextureSrc {
     private:

@@ -9,18 +9,18 @@
 class Pacman : public Object {
     private:
         int lifes;
-        int eatenCoins = 0;
         std::stack<int> Direction;
         std::stack< std::pair<int, std::pair<int, int> > > Special;
 
     public:
         static const int pacmanVelocity = 2;
+        static const int PACMAN_START_TILE_X = 13;
+        static const int PACMAN_START_TILE_Y = 23;
 
         Pacman();
 
         ~Pacman() {
             lifes = 0;
-            eatenCoins = 0;
             while (!Direction.empty()) Direction.pop();
             while (!Special.empty()) Special.pop();
         }
@@ -53,17 +53,13 @@ class Pacman : public Object {
 
         void eraseSpecial();
 
-        void eatCoins() {
-            ++eatenCoins;
-        }
-
         bool getLife() {
             if (lifes > 0) --lifes;
             return (lifes > 0);
         }
 
         void respawn() {
-            resetPacmanTile();
+            resetObjectTile(PACMAN_START_TILE_X, PACMAN_START_TILE_Y);
             while (!Direction.empty()) Direction.pop();
             while (!Special.empty())   Special.pop();
         }

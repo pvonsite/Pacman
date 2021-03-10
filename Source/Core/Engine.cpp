@@ -9,34 +9,38 @@ typedef std::pair<int, int> II;
 typedef std::pair<int, std::pair<int, int> > IP;
 
 void Engine::init(SDL_Renderer* &renderer) {
+    /// initialize map
     map = new Map();
     map->findingCrossRoad();
     map->NextCrossTileID();
+    /// initialize object
     pacman = new Pacman();
-    blinky = new Ghost(13, 11); /// 13 11
-    pinky  = new Ghost(13, 11); /// 13 14
-    inky   = new Ghost(11, 11); /// 11 14
-    clyde  = new Ghost(15, 11); /// 15 14
+    blinky = new Ghost(13, 11, false); /// 13 11
+    pinky  = new Ghost(13, 14, true); /// 13 14
+    inky   = new Ghost(11, 14, true); /// 11 14
+    clyde  = new Ghost(15, 14, true); /// 15 14
     objectTexture = new TextureSrc();
     objectTexture->loadTileTexture(renderer);
     objectTexture->loadPacmanAndGhostTexture(renderer);
+    /// tick and gameplay manager
     tickManager = new TickManager();
-    tickManager->resetTick();
-    //blinky->setDir(Map::LEFT);
-    //pinky->setDir(Map::UP);
+    gameManager = new GameManager();
+    tickManager->resetTick(gameManager->getLevel());
     srand(time(nullptr));
 }
 
-void Engine::revivalPacman() {
+void Engine::respawnObject() {
     pacman->respawn();
-    delete blinky;
-    blinky = new Ghost(13, 11);
-    delete pinky;
-    pinky  = new Ghost(13, 11);
-    delete inky;
-    inky   = new Ghost(11, 11);
-    delete clyde;
-    clyde  = new Ghost(15, 11);
+    blinky->respawn(Ghost::BLINKY_START_TILE_X, Ghost::BLINKY_START_TILE_Y, false);
+    if (pinky->isInCage())
+        pinky->respawn(Ghost::PINKY_START_TILE_X , Ghost::PINKY_START_TILE_Y , true);
+    else pinky->respawn(Ghost::GHOST_START_TILE_X , Ghost::GHOST_START_TILE_Y , false);
+    if (inky->isInCage())
+        inky->respawn(Ghost::INKY_START_TILE_X , Ghost::INKY_START_TILE_Y , true);
+    else inky->respawn(Ghost::GHOST_START_TILE_X , Ghost::GHOST_START_TILE_Y , false);
+    if (clyde->isInCage())
+        clyde->respawn(Ghost::CLYDE_START_TILE_X , Ghost::CLYDE_START_TILE_Y , true);
+    else clyde->respawn(Ghost::GHOST_START_TILE_X , Ghost::GHOST_START_TILE_Y , false);
 }
 
 void Engine::handleEvent(SDL_Event &e) {
@@ -110,7 +114,7 @@ void Engine::render(SDL_Renderer* &renderer) {
     SDL_Rect dsRect;
     for (int i = 0; i < 28; ++i) {
         for (int j = 0; j < 31; ++j) {
-            dsRect = {i * 16, j * 16, 16, 16};
+            dsRect = {i * 16 + 217, j * 16, 16, 16};
             objectTexture->renderTileTexture(renderer, map->getTileID(i, j), &dsRect);
         }
     }
@@ -119,7 +123,7 @@ void Engine::render(SDL_Renderer* &renderer) {
     if (!pacman->emptyDirStack()) dir = pacman->getDir();
     if (pacman->isDead()) {
         if (objectTexture->pacmanIsDead()) {
-            if (pacman->getLife()) revivalPacman();
+            if (pacman->getLife()) respawnObject();
             else init(renderer);
         }
         else objectTexture->renderPacmanTexture(renderer, pacman->getPosX(), pacman->getPosY(), TextureSrc::DEAD_PACMAN);
@@ -170,28 +174,20 @@ void Engine::loop() {
     int typeOfCoin = map->eatCoins(pacmanTileX, pacmanTileY);
 
     if (typeOfCoin != Map::notCoin) {
-        pacman->eatCoins();
+        gameManager->eatCoins();
         if (typeOfCoin == Map::superCoins) {
-            tickManager->setStatus(TickManager::FRIGHTEN_MODE);
+            tickManager->setFrightenTime();
             blinky->setFrighten(true); blinky->setDir((blinky->getGhostDir() + 2) % 4);
             pinky ->setFrighten(true); pinky ->setDir((pinky ->getGhostDir() + 2) % 4);
             inky  ->setFrighten(true); inky  ->setDir((inky  ->getGhostDir() + 2) % 4);
             clyde ->setFrighten(true); clyde ->setDir((clyde ->getGhostDir() + 2) % 4);
         }
     }
-
-    if (tickManager->getStatus() == TickManager::SCATTERING_MODE) {
-        blinky->setScattering(true);
-        pinky->setScattering(true);
-        inky->setScattering(true);
-        clyde->setScattering(true);
-    }
-    else {
-        blinky->setScattering(false);
-        pinky->setScattering(false);
-        inky->setScattering(false);
-        clyde->setScattering(false);
-    }
+    bool scatter = tickManager->isScatteringTime();
+    blinky->setScattering(scatter);
+    pinky ->setScattering(scatter);
+    inky  ->setScattering(scatter);
+    clyde ->setScattering(scatter);
 
     pacmanPosX = pacman->getPosX();
     pacmanPosY = pacman->getPosY();
@@ -199,6 +195,7 @@ void Engine::loop() {
     if (!pacman->emptyDirStack()) lastDir = pacman->getDir();
 
     if (!pacman->isDead()) {
+        tickManager->pauseTick(false);
         if (blinky->isDead())
             blinky->setDestination(13, 11);
         else if (!blinky->isScattering())
@@ -241,21 +238,27 @@ void Engine::loop() {
         }
         else clyde->setDestination(Ghost::DEFAULT_CLYDE_TILE_X, Ghost::DEFAULT_CLYDE_TILE_Y);
     }
+    pacman->goThroughTunnel();
     ghostMove(blinky);
     ghostMove(pinky);
     ghostMove(inky);
     ghostMove(clyde);
 
-    pacman->goThroughTunnel();
-    blinky->goThroughTunnel();
-    pinky ->goThroughTunnel();
-    inky  ->goThroughTunnel();
-    clyde ->goThroughTunnel();
+    int eatenCoin = gameManager->getEatenCoins();
+    if (pinky->isInCage() && eatenCoin == 5) pinky->respawn(Ghost::GHOST_START_TILE_X, Ghost::GHOST_START_TILE_Y, false);
+    else if (inky->isInCage() && eatenCoin == 35) inky ->respawn(Ghost::GHOST_START_TILE_X, Ghost::GHOST_START_TILE_Y, false);
+    else if (clyde->isInCage() && eatenCoin == 90) clyde->respawn(Ghost::GHOST_START_TILE_X, Ghost::GHOST_START_TILE_Y, false);
 
-    pacmanMeatGhost(blinky);
-    pacmanMeatGhost(pinky);
-    pacmanMeatGhost(inky);
-    pacmanMeatGhost(clyde);
+    if (gameManager->clearAllCoins()) {
+        gameManager->nextLevel();
+        tickManager->resetTick(gameManager->getLevel());
+        pacman->respawn();
+        blinky->respawn(Ghost::BLINKY_START_TILE_X, Ghost::BLINKY_START_TILE_Y, false);
+        pinky ->respawn(Ghost::PINKY_START_TILE_X , Ghost::PINKY_START_TILE_Y , true);
+        inky  ->respawn(Ghost::INKY_START_TILE_X  , Ghost::INKY_START_TILE_Y  , true);
+        clyde ->respawn(Ghost::CLYDE_START_TILE_X , Ghost::CLYDE_START_TILE_Y , true);
+        map->reset();
+    }
 }
 
 void Engine::ghostMove(Ghost* &ghost) {
@@ -338,9 +341,11 @@ void Engine::ghostMove(Ghost* &ghost) {
             else if (ghostTileY * 16 == ghostPosY && ghostTileX * 16 != ghostPosX && ghost->getGhostDir() % 2 == 1) ghost->moving();
         }
     }
+    ghost->goThroughTunnel();
     if (ghost->isDead() && ghostPosX == ghostNextTileX * 16 && ghostPosY == ghostNextTileY * 16) {
         ghost->setDead(false);
     }
+    pacmanMeatGhost(ghost);
 }
 
 void Engine::pacmanMeatGhost(Ghost* &ghost) {
@@ -353,6 +358,7 @@ void Engine::pacmanMeatGhost(Ghost* &ghost) {
         }
         else {
             pacman->setDead(true);
+            tickManager->pauseTick(true);
         }
     }
 }

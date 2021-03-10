@@ -1,6 +1,6 @@
 # depslib dependency file v1.0
-1613817161 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\main.cpp
-	"Window.h"
+1615375570 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\main.cpp
+	"Source/Core/Window.h"
 
 1613648757 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\gameengine.h
 	<SDL.h>
@@ -30,41 +30,42 @@
 
 1613649104 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\maze.h
 
-1614742678 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\window.cpp
+1615362505 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\window.cpp
 	"Window.h"
 	"LogStatus.h"
 
-1614868340 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\window.h
+1615346942 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\window.h
 	<SDL.h>
 	<string>
 	"Engine.h"
-	"GameManager.h"
+	"Menu.h"
 
 1613756658 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\logstatus.h
 	<iostream>
 	<string>
 
-1614938640 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\engine.h
+1615370131 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\engine.h
 	<SDL.h>
 	"Map.h"
 	"TextureSrc.h"
 	"Pacman.h"
 	"Ghost.h"
 	"TickManager.h"
+	"GameManager.h"
 
-1614940691 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\engine.cpp
+1615372648 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\engine.cpp
 	"Engine.h"
 	<limits>
 	<random>
 	<time.h>
 
-1614610386 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\map.h
+1615360654 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\map.h
 	"LogStatus.h"
 	<fstream>
 	<iostream>
 	<algorithm>
 
-1614611563 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\map.cpp
+1615360641 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\map.cpp
 	"Map.h"
 
 1614938945 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\texturesrc.h
@@ -72,39 +73,144 @@
 	<SDL_image.h>
 	"LogStatus.h"
 
-1614939521 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\texturesrc.cpp
+1615362802 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\texturesrc.cpp
 	"TextureSrc.h"
 
-1614940418 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\pacman.h
+1615360079 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\pacman.h
 	"Object.h"
 	<stack>
 
-1614940519 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\object.h
+1615360233 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\object.h
 	<algorithm>
 
-1614781128 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\object.cpp
+1615363276 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\object.cpp
 	"Object.h"
 	<iostream>
 	<cmath>
 
-1614941233 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\pacman.cpp
+1615347397 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\pacman.cpp
 	"Pacman.h"
 	<iostream>
 	<algorithm>
 
-1614937554 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\ghost.h
+1615371933 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\ghost.h
 	"Object.h"
 	<iostream>
 
-1614783481 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\ghost.cpp
+1615371913 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\ghost.cpp
 	"Ghost.h"
+	<random>
 
-1614742036 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\tickmanager.h
+1615370469 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\tickmanager.h
 	<SDL.h>
+	<stack>
 
-1614742845 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\tickmanager.cpp
+1615373343 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\tickmanager.cpp
 	"TickManager.h"
 	<iostream>
 
-1614868249 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\gamemanager.h
+1615368576 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\gamemanager.h
+
+1615303353 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\menu.h
+	<SDL.h>
+	<SDL_image.h>
+	"LogStatus.h"
+
+1615298167 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\menu.cpp
+	"Menu.h"
+
+1615370056 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\gamemanager.cpp
+	"GameManager.h"
+
+1615370056 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\manager\gamemanager.cpp
+	"GameManager.h"
+
+1615368576 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\manager\gamemanager.h
+
+1615373343 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\manager\tickmanager.cpp
+	"TickManager.h"
+	<iostream>
+
+1615370469 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\manager\tickmanager.h
+	<SDL.h>
+	<stack>
+
+1615360641 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\map\map.cpp
+	"Map.h"
+
+1615376115 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\map\map.h
+	"../Manager/LogStatus.h"
+	<fstream>
+	<iostream>
+	<algorithm>
+
+1613756658 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\manager\logstatus.h
+	<iostream>
+	<string>
+
+1615372648 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\core\engine.cpp
+	"Engine.h"
+	<limits>
+	<random>
+	<time.h>
+
+1615375704 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\core\engine.h
+	<SDL.h>
+	"../Map/Map.h"
+	"../Texture/Entity/TextureSrc.h"
+	"../Object/Pacman.h"
+	"../Object/Ghost.h"
+	"../Manager/TickManager.h"
+	"../Manager/GameManager.h"
+
+1615375806 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\texture\entity\texturesrc.h
+	<SDL.h>
+	<SDL_image.h>
+	"../../Manager/LogStatus.h"
+
+1615360079 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\object\pacman.h
+	"Object.h"
+	<stack>
+
+1615360233 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\object\object.h
+	<algorithm>
+
+1615371933 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\object\ghost.h
+	"Object.h"
+	<iostream>
+
+1615371913 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\object\ghost.cpp
+	"Ghost.h"
+	<random>
+
+1615363276 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\object\object.cpp
+	"Object.h"
+	<iostream>
+	<cmath>
+
+1615375643 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\core\window.h
+	<SDL.h>
+	<string>
+	"Engine.h"
+	"../Texture/Menu/Menu.h"
+
+1615375818 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\texture\menu\menu.h
+	<SDL.h>
+	<SDL_image.h>
+	"../../Manager/LogStatus.h"
+
+1615347397 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\object\pacman.cpp
+	"Pacman.h"
+	<iostream>
+	<algorithm>
+
+1615376199 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\texture\entity\texturesrc.cpp
+	"TextureSrc.h"
+
+1615376005 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\core\window.cpp
+	"Window.h"
+	"../Manager/LogStatus.h"
+
+1615298167 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\texture\menu\menu.cpp
+	"Menu.h"
 

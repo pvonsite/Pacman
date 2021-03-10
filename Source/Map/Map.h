@@ -3,7 +3,7 @@
 #ifndef _MAP_H_
 #define _MAP_H_
 
-#include "LogStatus.h"
+#include "../Manager/LogStatus.h"
 #include <fstream>
 #include <iostream>
 #include <algorithm>
@@ -12,7 +12,7 @@ class Map {
     private:
         static const int MAP_WIDTH = 28;
         static const int MAP_HEIGHT = 31;
-        const std::string mapFile = "map.txt";
+        const std::string mapFile = "Source/Map/map.txt";
 
         LogStatus* Console = new LogStatus("Map");
 
@@ -51,6 +51,8 @@ class Map {
         void NextCrossTileID();
 
         int eatCoins(const int &pacmanTileX, const int &pacmanTileY);
+
+        void reset();
 };
 
 #endif // _MAP_H_

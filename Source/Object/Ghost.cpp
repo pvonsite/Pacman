@@ -1,10 +1,13 @@
 #include "Ghost.h"
+#include <random>
 
-Ghost::Ghost(int tileX, int tileY) : Object(tileX, tileY) {
+Ghost::Ghost(int tileX, int tileY, bool inCage) : Object(tileX, tileY) {
     frighten = 0;
     scattering = false;
-    ghostDir = LEFT;
     nextTileX = tileX, nextTileY = tileY;
+    this->inCage = inCage;
+    if (inCage == false) ghostDir = RIGHT;
+    else ghostDir = UP;
 }
 
 void Ghost::setDestination(int tilX, int tilY) {
@@ -24,4 +27,18 @@ void Ghost::moving() {
     }
     changeVelocityDir(velX, velY, dir);
     move();
+}
+
+void Ghost::respawn(const int tileX, const int tileY, const bool inCage) {
+    resetObjectTile(tileX, tileY);
+    this->inCage = inCage;
+    if (inCage == false) {
+        if (rand() % 2 == 0) ghostDir = LEFT;
+        else ghostDir = RIGHT;
+    }
+    else ghostDir = UP;
+}
+
+bool Ghost::isInCage() const {
+    return inCage;
 }
