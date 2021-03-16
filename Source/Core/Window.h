@@ -4,6 +4,7 @@
 #define _WINDOW_H_
 
 #include <SDL.h>
+#include <SDL_ttf.h>
 #include <string>
 #include "Engine.h"
 #include "../Texture/Menu/Menu.h"
@@ -18,36 +19,17 @@ class Window {
         LogStatus* Console = new LogStatus("Window");
 
         bool Running = false;
+        bool runningMenu = true;
+        bool runningEngine = false;
 
         static const int SCREEN_WIDTH = 882;
         static const int SCREEN_HEIGHT = 496;
         const std::string WINDOW_TITTLE = "Pacman";
 
     public:
-        Window() {
-            window = nullptr;
-            renderer = nullptr;
-            engine = nullptr;
-            menu = nullptr;
-        }
+        Window();
 
-        ~Window() {
-            engine = nullptr;
-            delete engine;
-
-            menu = nullptr;
-            delete menu;
-
-            if (renderer != nullptr) {
-                SDL_DestroyRenderer(renderer);
-                renderer = nullptr;
-            }
-
-            if (window != nullptr) {
-                SDL_DestroyWindow(window);
-                window = nullptr;
-            }
-        }
+        ~Window();
 
         void initSDL();
 

@@ -1,0 +1,12 @@
+Ngày 20: 16/03/2021
+
+Nội dung:
+	Thêm Menu vào đầu trò chơi.
+	Sửa một số bug còn sót.
+
+-------------------------------------------
+Day 20: 16/03/2021
+
+Details:
+	Adding Menu into the game.
+	Fixing some bug.

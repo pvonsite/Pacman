@@ -11,6 +11,10 @@ class LogStatus {
     private:
         std::string area = "";
     public:
+        LogStatus() {
+
+        }
+
         LogStatus(std::string area) {
             this->area = area;
         }

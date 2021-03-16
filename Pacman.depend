@@ -144,7 +144,7 @@
 	<iostream>
 	<algorithm>
 
-1613756658 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\manager\logstatus.h
+1615739950 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\manager\logstatus.h
 	<iostream>
 	<string>
 
@@ -163,7 +163,7 @@
 	"../Manager/TickManager.h"
 	"../Manager/GameManager.h"
 
-1615375806 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\texture\entity\texturesrc.h
+1615904105 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\texture\entity\texturesrc.h
 	<SDL.h>
 	<SDL_image.h>
 	"../../Manager/LogStatus.h"
@@ -188,29 +188,46 @@
 	<iostream>
 	<cmath>
 
-1615375643 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\core\window.h
+1615740263 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\core\window.h
 	<SDL.h>
+	<SDL_ttf.h>
 	<string>
 	"Engine.h"
 	"../Texture/Menu/Menu.h"
 
-1615375818 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\texture\menu\menu.h
+1615903055 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\texture\menu\menu.h
 	<SDL.h>
 	<SDL_image.h>
 	"../../Manager/LogStatus.h"
+	"../Button.h"
 
 1615347397 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\object\pacman.cpp
 	"Pacman.h"
 	<iostream>
 	<algorithm>
 
-1615376199 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\texture\entity\texturesrc.cpp
+1615904077 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\texture\entity\texturesrc.cpp
 	"TextureSrc.h"
 
-1615376005 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\core\window.cpp
+1615903038 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\core\window.cpp
 	"Window.h"
 	"../Manager/LogStatus.h"
 
-1615298167 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\texture\menu\menu.cpp
+1615903021 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\texture\menu\menu.cpp
 	"Menu.h"
+
+1615902982 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\manager\textmanager.cpp
+	"TextManager.h"
+
+1615902976 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\manager\textmanager.h
+	<SDL_ttf.h>
+	<string>
+
+1615902489 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\texture\button.h
+	<SDL.h>
+	<string>
+	"../Manager/TextManager.h"
+
+1615903134 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\texture\button.cpp
+	"Button.h"
 

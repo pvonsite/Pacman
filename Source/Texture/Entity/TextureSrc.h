@@ -42,25 +42,9 @@ class TextureSrc {
         static const int GHOST_SPIRIT = 4;
         static const int TOTAL_GHOST = 5;
 
-        TextureSrc() {
-            tileTexture = nullptr;
-            pacmanTexture = nullptr;
-            ghostTexture = nullptr;
-            for (int i = 0; i < 5; ++i) ghostFrame[i] = 0;
-        }
+        TextureSrc();
 
-        ~TextureSrc() {
-            SDL_DestroyTexture(tileTexture);
-            tileTexture = nullptr;
-
-            SDL_DestroyTexture(pacmanTexture);
-            pacmanTexture = nullptr;
-
-            SDL_DestroyTexture(ghostTexture);
-            ghostTexture = nullptr;
-
-            for (int i = 0; i < 5; ++i) ghostFrame[i] = 0;
-        }
+        ~TextureSrc();
 
         bool pacmanIsDead();
 
