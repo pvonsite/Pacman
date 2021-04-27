@@ -23,13 +23,22 @@ TextManager:: ~TextManager() {
     }
 }
 
+int TextManager::getTextWidth() const {
+    return textSurface->w;
+}
 
 void TextManager::loadRenderText(SDL_Renderer* &renderer, std::string text, SDL_Color textColor) {
-    textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
+    if (textSurface != nullptr) SDL_FreeSurface(textSurface);
+    textSurface = TTF_RenderText_Blended(font, text.c_str(), textColor);
+    if (textTexture != nullptr) SDL_DestroyTexture(textTexture);
     textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
 }
 
-void TextManager::renderText(SDL_Renderer* &renderer, int scrPosX, int scrPosY) {
-    dsRect = {scrPosX - textSurface->w / 2, scrPosY - textSurface->h / 2, textSurface->w, textSurface->h};
+void TextManager::renderText(SDL_Renderer* &renderer, int scrPosX, int scrPosY, const int type) {
+    dsRect = {scrPosX, scrPosY, textSurface->w, textSurface->h};
+    if (type == CENTER) {
+        dsRect.x = scrPosX - textSurface->w / 2;
+        dsRect.y = scrPosY - textSurface->h / 2;
+    }
     SDL_RenderCopy(renderer, textTexture, nullptr, &dsRect);
 }

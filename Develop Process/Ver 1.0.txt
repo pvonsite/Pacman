@@ -1,0 +1,22 @@
+Ngày 63: 28/04/2021
+
+Nội dung:
+	Phiên bản 1.0 của trò chơi đã hoàn thành.
+	Tôi đã thêm âm thanh, menu hoàn chỉnh vào game.
+	Thêm 2 ghost mới Greendy và Friendy (một chút ngẫu hứng trong lúc đi học).
+	Mọi người đã có thể chơi một cách hoàn chỉnh.
+	Thông tin chi tiết của các con ghost sẽ được tôi cập nhật trong file
+Ghost Detail.txt
+	Thông tin về game sẽ được cập nhật trong file Readme.
+
+-------------------------------------------
+Day 63: 28/04/2021
+
+Detail:
+	Game version 1.0 is complete.
+	I added an audio, complete menu to the game.
+	Add 2 new ghosts Greendy and Friendy (a little spontaneity while in school).
+	Everyone can play completely.
+	The ghost's details will be updated in the file by me
+	Ghost Detail.txt
+	Information about the game will be updated in the Readme file.

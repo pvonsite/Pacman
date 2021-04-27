@@ -8,7 +8,6 @@
 
 class Pacman : public Object {
     private:
-        int lifes;
         std::stack<int> Direction;
         std::stack< std::pair<int, std::pair<int, int> > > Special;
 
@@ -20,7 +19,6 @@ class Pacman : public Object {
         Pacman();
 
         ~Pacman() {
-            lifes = 0;
             while (!Direction.empty()) Direction.pop();
             while (!Special.empty()) Special.pop();
         }
@@ -52,11 +50,6 @@ class Pacman : public Object {
         void turn();
 
         void eraseSpecial();
-
-        bool getLife() {
-            if (lifes > 0) --lifes;
-            return (lifes > 0);
-        }
 
         void respawn() {
             resetObjectTile(PACMAN_START_TILE_X, PACMAN_START_TILE_Y);

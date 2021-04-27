@@ -26,35 +26,21 @@ class Object {
 
         void move();
 
-        bool isDead() {
-            return dead;
-        }
+        bool isDead() const;
 
-        int getPosX() const {
-            return scrPosX;
-        }
+        int getPosX() const;
 
-        int getPosY() const {
-            return scrPosY;
-        }
+        int getPosY() const;
 
-        int getTileX() const {
-            return tileX;
-        }
+        int getTileX() const;
 
-        int getTileY() const {
-            return tileY;
-        }
+        int getTileY() const;
 
-        void changeVelocityDir(int velX, int velY, int dir) {
-            this->velX = velX;
-            this->velY = velY;
-            this->dir = dir;
-        }
+        void reTilePos();
 
-        void setDead(bool status) {
-            dead = status;
-        }
+        void changeVelocityDir(int velX, int velY, int dir);
+
+        void setDead(bool status);
 
         void resetObjectTile(const int tileX, const int tileY);
 

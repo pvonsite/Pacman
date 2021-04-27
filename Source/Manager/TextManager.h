@@ -14,15 +14,19 @@ class TextManager {
         SDL_Texture* textTexture;
         SDL_Surface* textSurface;
     public:
-        const std::string FONT_NAME = "Font/palamecia-titling.regular.ttf";
+        const std::string FONT_NAME = "Source/Assets/Font/Blogger Sans-Bold.ttf";
+        static const int CENTER = 0;
+        static const int LEFT = 1;
 
         TextManager(int fontSize);
 
         ~TextManager();
 
+        int getTextWidth() const;
+
         void loadRenderText(SDL_Renderer* &renderer, std::string text, SDL_Color textColor);
 
-        void renderText(SDL_Renderer* &renderer, int x, int y);
+        void renderText(SDL_Renderer* &renderer, int x, int y, const int type);
 };
 
 #endif // _TEXTMANAGER_H_

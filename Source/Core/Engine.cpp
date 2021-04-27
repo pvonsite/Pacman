@@ -14,36 +14,77 @@ void Engine::init(SDL_Renderer* &renderer) {
     map->findingCrossRoad();
     map->NextCrossTileID();
     /// initialize object
-    pacman = new Pacman();
-    blinky = new Ghost(13, 11, false); /// 13 11
-    pinky  = new Ghost(13, 14, true); /// 13 14
-    inky   = new Ghost(11, 14, true); /// 11 14
-    clyde  = new Ghost(15, 14, true); /// 15 14
     objectTexture = new TextureSrc();
     objectTexture->loadTileTexture(renderer);
     objectTexture->loadPacmanAndGhostTexture(renderer);
-    /// tick and gameplay manager
+    /// tick, gameplay manager
     tickManager = new TickManager();
-    gameManager = new GameManager();
-    tickManager->resetTick(gameManager->getLevel());
+    gameManager = new GameManager(renderer);
+    soundManager = new SoundManager();
+    soundManager->loadSound();
     srand(time(nullptr));
+    apple = new Item(renderer, "Source/Assets/Entity/greenapple.png");
+    newGame();
+}
+
+void Engine::newGame() {
+    map->reset();
+    gameManager->reset();
+    delete pacman;
+    pacman = new Pacman();
+    delete blinky;
+    if (gameManager->getLevel() < 5)
+        blinky = new Ghost(13, 11, false);
+    else
+        blinky = new Ghost(12, 11, false);
+    delete pinky;
+    pinky  = new Ghost(13, 14, true);
+    delete inky;
+    inky   = new Ghost(11, 14, true);
+    delete clyde;
+    clyde  = new Ghost(15, 14, true);
+    if (gameManager->getLevel() >= 3) {
+        apple->spawnAt(1, 1);
+        delete greendy;
+        greendy = new Ghost(12, 15, true);
+    }
+    if (gameManager->getLevel() >= 5) {
+        delete friendy;
+        friendy = new Ghost(14, 11, false);
+    }
+    soundManager->insertPlayList(SoundManager::START);
+    tickManager->resetTick(gameManager->getLevel());
+    runningEGBoard = false;
 }
 
 void Engine::respawnObject() {
     pacman->respawn();
-    blinky->respawn(Ghost::BLINKY_START_TILE_X, Ghost::BLINKY_START_TILE_Y, false);
-    if (pinky->isInCage())
-        pinky->respawn(Ghost::PINKY_START_TILE_X , Ghost::PINKY_START_TILE_Y , true);
-    else pinky->respawn(Ghost::GHOST_START_TILE_X , Ghost::GHOST_START_TILE_Y , false);
-    if (inky->isInCage())
-        inky->respawn(Ghost::INKY_START_TILE_X , Ghost::INKY_START_TILE_Y , true);
-    else inky->respawn(Ghost::GHOST_START_TILE_X , Ghost::GHOST_START_TILE_Y , false);
-    if (clyde->isInCage())
-        clyde->respawn(Ghost::CLYDE_START_TILE_X , Ghost::CLYDE_START_TILE_Y , true);
-    else clyde->respawn(Ghost::GHOST_START_TILE_X , Ghost::GHOST_START_TILE_Y , false);
+    soundManager->reset();
+    delete blinky;
+    blinky = new Ghost(13, 11, false);
+    delete pinky;
+    pinky  = new Ghost(13, 14, true);
+    delete inky;
+    inky   = new Ghost(11, 14, true);
+    delete clyde;
+    clyde  = new Ghost(15, 14, true);
+    if (greendy != nullptr) {
+        delete greendy;
+        greendy = new Ghost(12, 15, true);
+    }
+    if (friendy != nullptr) {
+        delete friendy;
+        friendy = new Ghost(14, 11, false);
+    }
+    tickManager->pauseTick(false);
 }
 
-void Engine::handleEvent(SDL_Event &e) {
+void Engine::handleEvent(SDL_Event &e, std::vector<std::string> &scoreData) {
+    if (Mix_Playing(2) || Mix_Playing(4)) return;
+    if (pacman->isDead()) {
+        if (runningEGBoard) gameManager->handleEGBoard(e, scoreData);
+        return;
+    }
     if (e.type == SDL_KEYDOWN) {
         if (e.key.keysym.sym == SDLK_DOWN || e.key.keysym.sym == SDLK_UP || e.key.keysym.sym == SDLK_LEFT || e.key.keysym.sym == SDLK_RIGHT
          || e.key.keysym.sym == SDLK_s    || e.key.keysym.sym == SDLK_w  || e.key.keysym.sym == SDLK_a    || e.key.keysym.sym == SDLK_d    ) {
@@ -51,22 +92,15 @@ void Engine::handleEvent(SDL_Event &e) {
             int lastDir = -1;
             int pacmanTileX = pacman->getTileX();
             int pacmanTileY = pacman->getTileY();
-            int pacmanPosX  = pacman->getPosX();
+            int pacmanPosX  = pacman->  getPosX();
             int pacmanPosY  = pacman->getPosY();
-            if (pacman->isDead()) return;
 
             if (!pacman->emptyDirStack()) lastDir = pacman->getDir();
 
-            switch (e.key.keysym.sym) {
-                case SDLK_UP   : newDir = 0; break;
-                case SDLK_DOWN : newDir = 2; break;
-                case SDLK_LEFT : newDir = 3; break;
-                case SDLK_RIGHT: newDir = 1; break;
-                case SDLK_w    : newDir = 0; break;
-                case SDLK_s    : newDir = 2; break;
-                case SDLK_a    : newDir = 3; break;
-                case SDLK_d    : newDir = 1; break;
-            }
+            if (e.key.keysym.sym == SDLK_UP || e.key.keysym.sym == SDLK_w) newDir = 0;
+            else if (e.key.keysym.sym == SDLK_RIGHT || e.key.keysym.sym == SDLK_d) newDir = 1;
+            else if (e.key.keysym.sym == SDLK_DOWN  || e.key.keysym.sym == SDLK_s) newDir = 2;
+            else if (e.key.keysym.sym == SDLK_LEFT  || e.key.keysym.sym == SDLK_a) newDir = 3;
 
             if (lastDir == -1) {
                 if (map->canChangeDir(pacmanTileX, pacmanTileY, newDir)) {
@@ -87,7 +121,7 @@ void Engine::handleEvent(SDL_Event &e) {
                     if (lastDir % 2 == 1 && newDir % 2 == 0) {
                         if (pacmanPosY == pacmanTileY * 16) {
                             if (map->canChangeDir(pacmanTileX, pacmanTileY, newDir)) {
-                                    pacman->pushSpecialStack(newDir, II(pacmanTileX, pacmanTileY));
+                                pacman->pushSpecialStack(newDir, II(pacmanTileX, pacmanTileY));
                             }
                             else if (nextCross != II(-1, -1) && !map->besideCrossIsWall(nextCross, newDir) && abs(pacmanPosX - nextCross.first * 16) <= 32) {
                                 pacman->pushSpecialStack( newDir, nextCross );
@@ -97,7 +131,7 @@ void Engine::handleEvent(SDL_Event &e) {
                     else if (lastDir % 2 == 0 && newDir % 2 == 1) {
                         if (pacmanPosX == pacmanTileX * 16) {
                             if (map->canChangeDir(pacmanTileX, pacmanTileY, newDir)) {
-                                    pacman->pushSpecialStack(newDir, II(pacmanTileX, pacmanTileY));
+                                pacman->pushSpecialStack(newDir, II(pacmanTileX, pacmanTileY));
                             }
                             else if (nextCross != II(-1, -1) && !map->besideCrossIsWall(nextCross, newDir) && abs(pacmanPosY - nextCross.second * 16) <= 32) {
                                 pacman->pushSpecialStack( newDir, nextCross );
@@ -110,7 +144,7 @@ void Engine::handleEvent(SDL_Event &e) {
     }
 }
 
-void Engine::render(SDL_Renderer* &renderer) {
+void Engine::render(SDL_Renderer* &renderer, const std::vector<std::string> &scoreData) {
     SDL_Rect dsRect;
     for (int i = 0; i < 28; ++i) {
         for (int j = 0; j < 31; ++j) {
@@ -118,32 +152,56 @@ void Engine::render(SDL_Renderer* &renderer) {
             objectTexture->renderTileTexture(renderer, map->getTileID(i, j), &dsRect);
         }
     }
+    if (gameManager->getLevel() >= 3 && !apple->isDestroyed()) apple->renderItem(renderer);
 
-    int dir = -1;
-    if (!pacman->emptyDirStack()) dir = pacman->getDir();
-    if (pacman->isDead()) {
-        if (objectTexture->pacmanIsDead()) {
-            if (pacman->getLife()) respawnObject();
-            else init(renderer);
+    if (!runningEGBoard) {
+        int dir = -1;
+        if (!pacman->emptyDirStack()) dir = pacman->getDir();
+        if (pacman->isDead()) {
+            if (objectTexture->pacmanIsDead()) {
+                if (gameManager->getRemainLife() > 0) respawnObject();
+                else {
+                    runningEGBoard = true;
+                    gameManager->checkScoreData(scoreData);
+                }
+            }
+            else objectTexture->renderPacmanTexture(renderer, pacman->getPosX(), pacman->getPosY(), TextureSrc::DEAD_PACMAN);
         }
-        else objectTexture->renderPacmanTexture(renderer, pacman->getPosX(), pacman->getPosY(), TextureSrc::DEAD_PACMAN);
+        else objectTexture->renderPacmanTexture(renderer, pacman->getPosX(), pacman->getPosY(), dir);
+        if (!pacman->isDead()) {
+            renderGhost(renderer, blinky, TextureSrc::BLINKY);
+            renderGhost(renderer, pinky , TextureSrc::PINKY );
+            renderGhost(renderer, inky  , TextureSrc::INKY  );
+            renderGhost(renderer, clyde , TextureSrc::CLYDE );
+            if (greendy != nullptr) renderGhost(renderer, greendy, TextureSrc::GREENDY);
+            if (friendy != nullptr) renderGhost(renderer, friendy, TextureSrc::FRIENDY);
+        }
+        if (Mix_Playing(4)) {
+            objectTexture->renderGhostScore(renderer, gameManager->getEatenGhostPosX(), gameManager->getEatenGhostPosY(), gameManager->getEatenGhostStreak());
+        }
+        soundManager->playSound();
     }
-    else objectTexture->renderPacmanTexture(renderer, pacman->getPosX(), pacman->getPosY(), dir);
 
-
-    if (!pacman->isDead()) {
-        renderGhost(renderer, blinky, TextureSrc::BLINKY);
-        renderGhost(renderer, pinky , TextureSrc::PINKY );
-        renderGhost(renderer, inky  , TextureSrc::INKY  );
-        renderGhost(renderer, clyde , TextureSrc::CLYDE );
-    }
+    if (runningEGBoard) gameManager->runEGBoard(renderer);
+    else gameManager->renderHUD(renderer);
 }
 
 
-void Engine::loop() {
+void Engine::loop(bool &exitToMenu) {
+    if (Mix_Playing(2) || Mix_Playing(4)) return;
+    if (pacman->isDead()) {
+        if (runningEGBoard) {
+            switch (gameManager->getPlayerDecision()) {
+                case GameManager::AGAIN:
+                    newGame();
+                    break;
+                case GameManager::QUIT:
+                    exitToMenu = true; break;
+            }
+        }
+        return;
+    }
     tickManager->updateStatus();
-
-    if (pacman->isDead()) return;
     int pacmanTileX = pacman->getTileX();
     int pacmanTileY = pacman->getTileY();
     int pacmanPosX = pacman->getPosX();
@@ -168,26 +226,59 @@ void Engine::loop() {
             }
         }
     }
+    int remainCoin = gameManager->getRemainCoin();
+    if (remainCoin < 50) soundManager->insertPlayList(SoundManager::MOVE_3);
+    else if (remainCoin < 100) soundManager->insertPlayList(SoundManager::MOVE_2);
+    else if (remainCoin < 150) soundManager->insertPlayList(SoundManager::MOVE_1);
+    else soundManager->insertPlayList(SoundManager::MOVE_0);
 
     pacmanTileX = pacman->getTileX();
     pacmanTileY = pacman->getTileY();
     int typeOfCoin = map->eatCoins(pacmanTileX, pacmanTileY);
 
-    if (typeOfCoin != Map::notCoin) {
-        gameManager->eatCoins();
-        if (typeOfCoin == Map::superCoins) {
+    if (typeOfCoin != GameManager::notCoin) {
+        gameManager->eatCoins(typeOfCoin);
+        soundManager->insertPlayList(SoundManager::EAT_DOT);
+        if (typeOfCoin == GameManager::superCoin) {
             tickManager->setFrightenTime();
-            blinky->setFrighten(true); blinky->setDir((blinky->getGhostDir() + 2) % 4);
-            pinky ->setFrighten(true); pinky ->setDir((pinky ->getGhostDir() + 2) % 4);
-            inky  ->setFrighten(true); inky  ->setDir((inky  ->getGhostDir() + 2) % 4);
-            clyde ->setFrighten(true); clyde ->setDir((clyde ->getGhostDir() + 2) % 4);
+            soundManager->insertPlayList(SoundManager::GHOST_TURN_BLUE);
+            if (!blinky->isDead()) blinky->setFrighten(true);
+            if (!pinky ->isDead()) pinky ->setFrighten(true);
+            if (!inky  ->isDead()) inky  ->setFrighten(true);
+            if (!clyde ->isDead()) clyde ->setFrighten(true);
+            if (greendy != nullptr) {
+                if (!greendy->isDead()) greendy->setFrighten(true);
+            }
+            if (friendy != nullptr) tickManager->friendyStartChasePacman();
         }
+    }
+    if (!tickManager->isFrightenTime()) {
+        soundManager->insertPlayList(SoundManager::NORMAL_GHOST);
+        blinky->setFrighten(false);
+        pinky ->setFrighten(false);
+        inky  ->setFrighten(false);
+        clyde ->setFrighten(false);
+        if (greendy != nullptr) greendy->setFrighten(false);
     }
     bool scatter = tickManager->isScatteringTime();
     blinky->setScattering(scatter);
     pinky ->setScattering(scatter);
     inky  ->setScattering(scatter);
     clyde ->setScattering(scatter);
+    if (!tickManager->isGreendyChaseTime()) {
+        eatGreenApple = false;
+    }
+    else {
+        if (apple->isDestroyed()) {
+            switch (rand() % 4) {
+                case 0: apple->spawnAt(1, 1); break;
+                case 1: apple->spawnAt(26, 1); break;
+                case 2: apple->spawnAt(26, 29); break;
+                case 3: apple->spawnAt(1, 29); break;
+            }
+        }
+    }
+
 
     pacmanPosX = pacman->getPosX();
     pacmanPosY = pacman->getPosY();
@@ -237,31 +328,38 @@ void Engine::loop() {
                 clyde->setDestination(pacmanTileX, pacmanTileY);
         }
         else clyde->setDestination(Ghost::DEFAULT_CLYDE_TILE_X, Ghost::DEFAULT_CLYDE_TILE_Y);
+
+        if (greendy != nullptr) {
+            if (greendy->isDead())
+                greendy->setDestination(13, 11);
+            else if (eatGreenApple == false)
+                greendy->setDestination(apple->getPosX(), apple->getPosY());
+            else greendy->setDestination(pacmanTileX, pacmanTileY, 2);
+        }
+        if (friendy != nullptr && tickManager->isFriendyChaseTime()) {
+            friendy->setDestination(pacmanTileX, pacmanTileY, 1);
+        }
     }
     pacman->goThroughTunnel();
     ghostMove(blinky);
     ghostMove(pinky);
     ghostMove(inky);
     ghostMove(clyde);
+    ghostMove(greendy);
+    ghostMove(friendy);
 
-    int eatenCoin = gameManager->getEatenCoins();
-    if (pinky->isInCage() && eatenCoin == 5) pinky->respawn(Ghost::GHOST_START_TILE_X, Ghost::GHOST_START_TILE_Y, false);
-    else if (inky->isInCage() && eatenCoin == 35) inky ->respawn(Ghost::GHOST_START_TILE_X, Ghost::GHOST_START_TILE_Y, false);
-    else if (clyde->isInCage() && eatenCoin == 90) clyde->respawn(Ghost::GHOST_START_TILE_X, Ghost::GHOST_START_TILE_Y, false);
+    gameManager->handleGhostPos(pinky, inky, clyde, greendy);
 
     if (gameManager->clearAllCoins()) {
         gameManager->nextLevel();
         tickManager->resetTick(gameManager->getLevel());
-        pacman->respawn();
-        blinky->respawn(Ghost::BLINKY_START_TILE_X, Ghost::BLINKY_START_TILE_Y, false);
-        pinky ->respawn(Ghost::PINKY_START_TILE_X , Ghost::PINKY_START_TILE_Y , true);
-        inky  ->respawn(Ghost::INKY_START_TILE_X  , Ghost::INKY_START_TILE_Y  , true);
-        clyde ->respawn(Ghost::CLYDE_START_TILE_X , Ghost::CLYDE_START_TILE_Y , true);
+        respawnObject();
         map->reset();
     }
 }
 
 void Engine::ghostMove(Ghost* &ghost) {
+    if (ghost == nullptr) return;
     int ghostTileX = ghost->getTileX();
     int ghostTileY = ghost->getTileY();
     int ghostPosX  = ghost->getPosX();
@@ -272,7 +370,7 @@ void Engine::ghostMove(Ghost* &ghost) {
 
     if (ghostTileX * 16 == ghostPosX && ghostTileY * 16 == ghostPosY) {
         if (map->iscrossRoad(ghostTileX, ghostTileY)) {
-            if (ghost->isFrighten()) {
+            if (ghost->isFrighten() || (ghost == friendy && !tickManager->isFriendyChaseTime())) {
                 std::stack<int> whichDir;
                 if (ghostOldDir % 2 == 1) {
                     if (map->canChangeDir(ghostTileX, ghostTileY, Map::UP)) whichDir.push(0);
@@ -342,8 +440,19 @@ void Engine::ghostMove(Ghost* &ghost) {
         }
     }
     ghost->goThroughTunnel();
-    if (ghost->isDead() && ghostPosX == ghostNextTileX * 16 && ghostPosY == ghostNextTileY * 16) {
-        ghost->setDead(false);
+    if (ghostPosX == ghostNextTileX * 16 && ghostPosY == ghostNextTileY * 16) {
+        if (ghost->isDead()) {
+            ghost->setDead(false);
+            soundManager->insertPlayList(SoundManager::REVIVAL_GHOST);
+        }
+        else {
+            if (ghost == greendy) {
+                tickManager->greendyStartChasePacman();
+                ghost->resetObjectTile(ghostTileX, ghostTileY);
+                apple->destroyItem();
+                eatGreenApple = true;
+            }
+        }
     }
     pacmanMeatGhost(ghost);
 }
@@ -353,21 +462,31 @@ void Engine::pacmanMeatGhost(Ghost* &ghost) {
     if ((pacman->getPosX() == ghost->getPosX() && abs(pacman->getPosY() - ghost->getPosY()) <= 3) ||
         (pacman->getPosY() == ghost->getPosY() && abs(pacman->getPosX() - ghost->getPosX()) <= 3)) {
         if (ghost->isFrighten()) {
+            gameManager->eatGhost(ghost->getPosX(), ghost->getPosY());
             ghost->setDead(true);
             ghost->setFrighten(false);
+            soundManager->insertPlayList(SoundManager::EAT_GHOST);
+            soundManager->insertPlayList(SoundManager::GHOST_GO_HOME);
         }
         else {
             pacman->setDead(true);
+            gameManager->lostALife();
+            soundManager->insertPlayList(SoundManager::DEAD);
             tickManager->pauseTick(true);
         }
     }
 }
 
 void Engine::renderGhost(SDL_Renderer* &renderer, Ghost* &ghost, int ghostID) {
+    if (ghost == nullptr) return;
     if (ghost->isDead())
         objectTexture->renderGhostTexture(renderer, ghost->getPosX(), ghost->getPosY(), TextureSrc::GHOST_SPIRIT, ghost->getGhostDir());
-    else if (ghost->isFrighten())
-        objectTexture->renderGhostTexture(renderer, ghost->getPosX(), ghost->getPosY(), ghostID, TextureSrc::FRIGHTEN_GHOST);
+    else if (ghost->isFrighten()) {
+        if (tickManager->remainFrightenTime() < 2.0)
+            objectTexture->renderGhostTexture(renderer, ghost->getPosX(), ghost->getPosY(), ghostID, TextureSrc::FRIGHTEN_GHOST_2);
+        else
+            objectTexture->renderGhostTexture(renderer, ghost->getPosX(), ghost->getPosY(), ghostID, TextureSrc::FRIGHTEN_GHOST_1);
+    }
     else
         objectTexture->renderGhostTexture(renderer, ghost->getPosX(), ghost->getPosY(), ghostID, ghost->getGhostDir());
 }

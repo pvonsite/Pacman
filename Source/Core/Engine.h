@@ -4,65 +4,97 @@
 #define _ENGINE_H_
 
 #include <SDL.h>
+#include <SDL_mixer.h>
 #include "../Map/Map.h"
-#include "../Texture/Entity/TextureSrc.h"
 #include "../Object/Pacman.h"
 #include "../Object/Ghost.h"
+#include "../Object/Item.h"
+#include "../Object/TextureSrc.h"
 #include "../Manager/TickManager.h"
 #include "../Manager/GameManager.h"
+#include "../Manager/SoundManager.h"
 
 class Engine {
     private:
         Map* map;
-        Pacman* pacman;
-        Ghost* blinky;
-        Ghost* pinky;
-        Ghost* inky;
-        Ghost* clyde;
+        Pacman* pacman = nullptr;
+        Ghost* blinky = nullptr;
+        Ghost* pinky = nullptr;
+        Ghost* inky = nullptr;
+        Ghost* clyde = nullptr;
+        Ghost* greendy = nullptr;
+        Ghost* friendy = nullptr;
+        Item* apple;
         TextureSrc* objectTexture;
         TickManager* tickManager;
         GameManager* gameManager;
-    public:
-        Engine() {
-            map = nullptr;
-            pacman = nullptr;
-            objectTexture = nullptr;
-            tickManager = nullptr;
-            gameManager = nullptr;
-        }
-
-        ~Engine() {
-            map = nullptr;
-            delete map;
-
-            pacman = nullptr;
-            delete pacman;
-
-            objectTexture = nullptr;
-            delete objectTexture;
-
-            tickManager = nullptr;
-            delete tickManager;
-
-            gameManager = nullptr;
-            delete gameManager;
-        }
+        SoundManager* soundManager;
+        bool runningEGBoard = false;
+        bool eatGreenApple = false;
+    protected:
+        void newGame();
 
         void respawnObject();
-
-        void init(SDL_Renderer* &renderer);
-
-        void handleEvent(SDL_Event &e);
-
-        void render(SDL_Renderer* &renderer);
-
-        void loop();
 
         void ghostMove(Ghost* &ghost);
 
         void pacmanMeatGhost(Ghost* &ghost);
 
         void renderGhost(SDL_Renderer* &renderer, Ghost* &ghost, int ghostID);
+    public:
+        Engine() {
+            map = nullptr;
+            pacman = nullptr;
+            blinky = nullptr;
+            pinky  = nullptr;
+            clyde  = nullptr;
+            inky   = nullptr;
+            greendy = nullptr;
+            friendy = nullptr;
+            apple = nullptr;
+            objectTexture = nullptr;
+            tickManager   = nullptr;
+            gameManager   = nullptr;
+            soundManager  = nullptr;
+        }
+
+        ~Engine() {
+            delete map;
+            map = nullptr;
+            delete pacman;
+            pacman = nullptr;
+            delete blinky;
+            blinky = nullptr;
+            delete pinky;
+            pinky = nullptr;
+            delete clyde;
+            clyde = nullptr;
+            delete inky;
+            inky = nullptr;
+            delete greendy;
+            greendy = nullptr;
+            delete friendy;
+            friendy = nullptr;
+            delete apple;
+            apple = nullptr;
+            delete objectTexture;
+            objectTexture = nullptr;
+            delete tickManager;
+            tickManager = nullptr;
+            delete gameManager;
+            gameManager = nullptr;
+            delete soundManager;
+            soundManager = nullptr;
+        }
+
+        void init(SDL_Renderer* &renderer);
+
+        void handleEvent(SDL_Event &e, std::vector<std::string> &scoreData);
+
+        void loop(bool &exitToMenu);
+
+        void render(SDL_Renderer* &renderer, const std::vector<std::string> &scoreData);
+
 };
 
 #endif // _ENGINE_H_

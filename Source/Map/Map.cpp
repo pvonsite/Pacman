@@ -79,9 +79,9 @@ void Map::findingCrossRoad() {
 
             if (tile[y][x] != 26 && tile[y][x] != 27 && tile[y][x] != 30) continue;
 
-            if (y > 0 && (tile[y - 1][x] == 26 || tile[y - 1][x] == 27 || tile[y - 1][x] == 30)) markCross[y][x][0] = true;
+            if (y > 0  && (tile[y - 1][x] == 26 || tile[y - 1][x] == 27 || tile[y - 1][x] == 30)) markCross[y][x][0] = true;
             if (y < 30 && (tile[y + 1][x] == 26 || tile[y + 1][x] == 27 || tile[y + 1][x] == 30)) markCross[y][x][2] = true;
-            if (x > 0 && (tile[y][x - 1] == 26 || tile[y][x - 1] == 27 || tile[y][x - 1] == 30)) markCross[y][x][3] = true;
+            if (x > 0  && (tile[y][x - 1] == 26 || tile[y][x - 1] == 27 || tile[y][x - 1] == 30)) markCross[y][x][3] = true;
             if (x < 27 && (tile[y][x + 1] == 26 || tile[y][x + 1] == 27 || tile[y][x + 1] == 30)) markCross[y][x][1] = true;
         }
     }
@@ -140,7 +140,7 @@ int Map::eatCoins(const int &pacmanTileX, const int &pacmanTileY) {
     }
     if (tile[pacmanTileY][pacmanTileX] == 27) {
         tile[pacmanTileY][pacmanTileX] = 30;
-        return superCoins;
+        return 27;
     }
     return 0;
 }

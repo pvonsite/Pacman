@@ -10,16 +10,17 @@ class Ghost : public Object {
     private:
         int nextTileX;
         int nextTileY;
-        int frighten;
         int ghostDir;
+        bool frighten;
         bool scattering;
         bool inCage;
+        int ghostVelocity;
+        int accele;
     public:
-        static const int ghostVelocity = 2;
         static const int GHOST_START_TILE_X = 13;
         static const int GHOST_START_TILE_Y = 11;
 
-        static const int DEFAULT_BLINKY_TILE_X = 27;
+        static const int DEFAULT_BLINKY_TILE_X = 26;
         static const int DEFAULT_BLINKY_TILE_Y = 1;
         static const int BLINKY_START_TILE_X = 13;
         static const int BLINKY_START_TILE_Y = 11;
@@ -29,53 +30,35 @@ class Ghost : public Object {
         static const int PINKY_START_TILE_X = 13;
         static const int PINKY_START_TILE_Y = 14;
 
-        static const int DEFAULT_INKY_TILE_X = 27;
-        static const int DEFAULT_INKY_TILE_Y = 30;
+        static const int DEFAULT_INKY_TILE_X = 26;
+        static const int DEFAULT_INKY_TILE_Y = 29;
         static const int INKY_START_TILE_X = 11;
         static const int INKY_START_TILE_Y = 14;
 
         static const int DEFAULT_CLYDE_TILE_X = 1;
-        static const int DEFAULT_CLYDE_TILE_Y = 30;
+        static const int DEFAULT_CLYDE_TILE_Y = 29;
         static const int CLYDE_START_TILE_X = 15;
         static const int CLYDE_START_TILE_Y = 14;
 
         Ghost(int tileX, int tileY, bool inCage);
 
-        int getNextTileX() const {
-            return nextTileX;
-        }
+        int getNextTileX() const;
 
-        int getNextTileY() const {
-            return nextTileY;
-        }
+        int getNextTileY() const;
 
-        int getGhostDir() const {
-            return ghostDir;
-        }
+        int getGhostDir() const;
 
-        void setDir(int dir) {
-            ghostDir = dir;
-        }
+        void setDir(int dir);
 
-        void setFrighten(const bool status) {
-            if (status) frighten = 500;
-            else frighten = 0;
-        }
+        void setFrighten(const bool status);
 
-        void setScattering(const bool status) {
-            scattering = status;
-        }
+        void setScattering(const bool status);
 
-        bool isScattering() {
-            return scattering;
-        }
+        bool isScattering();
 
-        bool isFrighten() {
-            if (frighten > 0) --frighten;
-            return (frighten > 0);
-        }
+        bool isFrighten();
 
-        void setDestination(int tilX, int tilY);
+        void setDestination(int tilX, int tilY, int _accele = 1);
 
         void moving();
 

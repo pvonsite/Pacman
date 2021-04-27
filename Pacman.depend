@@ -122,23 +122,32 @@
 1615370056 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\gamemanager.cpp
 	"GameManager.h"
 
-1615370056 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\manager\gamemanager.cpp
+1619554093 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\manager\gamemanager.cpp
 	"GameManager.h"
+	<iostream>
+	<string>
 
-1615368576 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\manager\gamemanager.h
+1619553862 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\manager\gamemanager.h
+	<SDL.h>
+	<SDL_image.h>
+	<SDL_mixer.h>
+	<vector>
+	"../Object/Ghost.h"
+	"TextManager.h"
+	"../Menu/Button.h"
 
-1615373343 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\manager\tickmanager.cpp
+1619540210 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\manager\tickmanager.cpp
 	"TickManager.h"
 	<iostream>
 
-1615370469 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\manager\tickmanager.h
+1619536811 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\manager\tickmanager.h
 	<SDL.h>
 	<stack>
 
-1615360641 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\map\map.cpp
+1619451029 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\map\map.cpp
 	"Map.h"
 
-1615376115 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\map\map.h
+1615948931 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\map\map.h
 	"../Manager/LogStatus.h"
 	<fstream>
 	<iostream>
@@ -148,86 +157,163 @@
 	<iostream>
 	<string>
 
-1615372648 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\core\engine.cpp
+1619554093 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\core\engine.cpp
 	"Engine.h"
 	<limits>
 	<random>
 	<time.h>
 
-1615375704 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\core\engine.h
+1619553652 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\core\engine.h
 	<SDL.h>
+	<SDL_mixer.h>
 	"../Map/Map.h"
-	"../Texture/Entity/TextureSrc.h"
 	"../Object/Pacman.h"
 	"../Object/Ghost.h"
+	"../Object/Item.h"
+	"../Object/TextureSrc.h"
 	"../Manager/TickManager.h"
 	"../Manager/GameManager.h"
+	"../Manager/SoundManager.h"
 
-1615904105 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\texture\entity\texturesrc.h
+1619520976 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\texture\entity\texturesrc.h
 	<SDL.h>
 	<SDL_image.h>
 	"../../Manager/LogStatus.h"
 
-1615360079 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\object\pacman.h
+1619446040 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\object\pacman.h
 	"Object.h"
 	<stack>
 
-1615360233 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\object\object.h
+1619531055 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\object\object.h
 	<algorithm>
 
-1615371933 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\object\ghost.h
+1619552721 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\object\ghost.h
 	"Object.h"
 	<iostream>
 
-1615371913 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\object\ghost.cpp
+1619544364 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\object\ghost.cpp
 	"Ghost.h"
 	<random>
+	<iostream>
 
-1615363276 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\object\object.cpp
+1619553099 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\object\object.cpp
 	"Object.h"
 	<iostream>
 	<cmath>
 
-1615740263 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\core\window.h
+1619553724 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\core\window.h
 	<SDL.h>
 	<SDL_ttf.h>
+	<SDL_mixer.h>
 	<string>
-	"Engine.h"
-	"../Texture/Menu/Menu.h"
+	<vector>
+	"PlayStateManager.h"
+	"../Menu/Button.h"
 
-1615903055 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\texture\menu\menu.h
+1619551938 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\texture\menu\menu.h
+	<SDL.h>
+	<SDL_mixer.h>
+	<SDL_image.h>
+	<vector>
+	<string>
+	"../../Manager/LogStatus.h"
+	"../Button.h"
+
+1619446032 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\object\pacman.cpp
+	"Pacman.h"
+	<iostream>
+	<algorithm>
+
+1619520253 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\texture\entity\texturesrc.cpp
+	"TextureSrc.h"
+
+1619554093 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\core\window.cpp
+	"Window.h"
+	"../Manager/LogStatus.h"
+
+1619552212 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\texture\menu\menu.cpp
+	"Menu.h"
+	<stdio.h>
+
+1618817491 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\manager\textmanager.cpp
+	"TextManager.h"
+
+1619554093 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\manager\textmanager.h
+	<SDL_ttf.h>
+	<string>
+
+1616751354 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\texture\button.h
+	<SDL.h>
+	<string>
+	"../Manager/TextManager.h"
+
+1618584105 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\texture\button.cpp
+	"Button.h"
+
+1619553751 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\core\playstatemanager.h
+	<string>
+	<vector>
+	"Engine.h"
+	"SDL_mixer.h"
+	"../Menu/Button.h"
+	"../Menu/Menu.h"
+
+1616169659 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\texture\menu\startmenu.h
 	<SDL.h>
 	<SDL_image.h>
 	"../../Manager/LogStatus.h"
 	"../Button.h"
 
-1615347397 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\object\pacman.cpp
-	"Pacman.h"
+1616167577 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\texture\menu\startmenu.cpp
+	"StartMenu.h"
+
+1619554093 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\core\playstatemanager.cpp
+	"PlayStateManager.h"
 	<iostream>
-	<algorithm>
 
-1615904077 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\texture\entity\texturesrc.cpp
-	"TextureSrc.h"
+1618941534 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\manager\soundmanager.h
+	<SDL_mixer.h>
+	<vector>
+	"LogStatus.h"
 
-1615903038 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\core\window.cpp
-	"Window.h"
-	"../Manager/LogStatus.h"
+1619554093 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\manager\soundmanager.cpp
+	"SoundManager.h"
+	<iostream>
 
-1615903021 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\texture\menu\menu.cpp
-	"Menu.h"
-
-1615902982 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\manager\textmanager.cpp
-	"TextManager.h"
-
-1615902976 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\manager\textmanager.h
-	<SDL_ttf.h>
+1619539412 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\object\item.h
+	<SDL.h>
+	<SDL_image.h>
 	<string>
 
-1615902489 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\texture\button.h
+1619552500 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\object\item.cpp
+	"Item.h"
+
+1619553676 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\object\texturesrc.h
+	<SDL.h>
+	<SDL_image.h>
+	"../Manager/LogStatus.h"
+
+1616751354 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\menu\button.h
 	<SDL.h>
 	<string>
 	"../Manager/TextManager.h"
 
-1615903134 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\texture\button.cpp
+1619553820 c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\menu\menu.h
+	<SDL.h>
+	<SDL_mixer.h>
+	<SDL_image.h>
+	<vector>
+	<string>
+	"../Manager/LogStatus.h"
 	"Button.h"
+
+1618584105 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\menu\button.cpp
+	"Button.h"
+
+1619554093 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\menu\menu.cpp
+	"Menu.h"
+	<stdio.h>
+
+1619554093 source:c:\users\fmlph\onedrive\codeblocks ide 17-20\pacman\source\object\texturesrc.cpp
+	"TextureSrc.h"
 

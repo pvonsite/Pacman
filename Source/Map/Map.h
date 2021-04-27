@@ -24,8 +24,6 @@ class Map {
         static const int RIGHT = 1;
         static const int DOWN = 2;
         static const int LEFT = 3;
-        static const int notCoin = 0;
-        static const int superCoins = 27;
 
         Map();
 
