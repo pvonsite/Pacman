@@ -29,9 +29,11 @@ All the codes in my project is coded by myself.
 2. ### How to Play the game   
  
     You control a character named `Pacman`. Your mission is eating all the `dot` (or `coin`) in the maze. You will go to the next level after that.
-
+    
+    Using WASD or navigation arrows to control Pacman.
+    
     Prevent you from eating is 6 Ghosts: Blinky, Pinky, Clyde, Inky, Greendy, Friendy.
-
+    
     In the original game, there are only the first 4 ghosts, I add 2 more, make the game harder.
 
     Eating the bigger dot (normally called `power dot`) you will have a small time to hunt the ghosts. Eatting the scared ghosts gives you lots of
