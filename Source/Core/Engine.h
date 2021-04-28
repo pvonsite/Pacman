@@ -31,6 +31,7 @@ class Engine {
         SoundManager* soundManager;
         bool runningEGBoard = false;
         bool eatGreenApple = false;
+        int waitTime = 200;
     protected:
         void newGame();
 

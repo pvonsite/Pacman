@@ -108,7 +108,7 @@ void TextureSrc::loadPacmanAndGhostTexture(SDL_Renderer* &renderer) {
         ghost[GHOST_SPIRIT][RIGHT][1] = {posTexX, posTexY, 30, 30}; posTexX = posTexY = 0;
 
         SDL_FreeSurface(Image);
-        Image = IMG_Load("ghostscore.png");
+        Image = IMG_Load("Source/Assets/Entity Image/ghostscore.png");
         ghostScore = SDL_CreateTextureFromSurface(renderer, Image);
 
         Console->Status("Ghost Texture got successfully!");

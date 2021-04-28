@@ -98,6 +98,13 @@ void TickManager::updateStatus() {
     }
 }
 
+void TickManager::stablizeFPS() {
+    if (SDL_GetTicks() - lastFrame < 1000 / FPS) {
+        SDL_Delay(1000 / FPS + lastFrame - SDL_GetTicks());
+    }
+    lastFrame = SDL_GetTicks();
+}
+
 bool TickManager::pauseTick(const bool status) {
     return pause = status;
 }

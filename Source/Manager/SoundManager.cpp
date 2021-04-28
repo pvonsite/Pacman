@@ -4,7 +4,7 @@
 using namespace std;
 
 SoundManager::SoundManager() {
-    for (int i = 0; i < 10; ++i)
+    for (int i = 0; i < 11; ++i)
         soundEffect[i] = nullptr;
 
     playList.clear();
@@ -17,7 +17,7 @@ SoundManager::SoundManager() {
 }
 
 SoundManager::~SoundManager() {
-    for (int i = 0; i < 10; ++i) {
+    for (int i = 0; i < 11; ++i) {
         Mix_FreeChunk(soundEffect[i]);
         soundEffect[i] = nullptr;
     }
@@ -38,8 +38,13 @@ void SoundManager::insertPlayList(const int soundID) {
         eatDotTime = 0;         Mix_Pause(3);
         Mix_Pause(1);
     }
-    else if (soundID == START) {
-        Mix_PlayChannel(2, soundEffect[START], 0);
+    else if (soundID == START || soundID == WINNING) {
+        dead = false;
+        ghostGoHome = false;    Mix_Pause(6);
+        ghostTurnBlue = false;  Mix_Pause(5);
+        eatDotTime = 0;         Mix_Pause(3);
+        Mix_Pause(1);
+        Mix_PlayChannel(2, soundEffect[soundID], 0);
     }
 }
 
@@ -50,12 +55,13 @@ void SoundManager::loadSound() {
     soundEffect[ MOVE_3 ] = Mix_LoadWAV("Source/Assets/Sound/move 3.wav");
     soundEffect[ START  ] = Mix_LoadWAV("Source/Assets/Sound/start.wav");
     soundEffect[ DEAD   ] = Mix_LoadWAV("Source/Assets/Sound/dead.wav");
+    soundEffect[ WINNING] = Mix_LoadWAV("Source/Assets/Sound/next level.wav");
     soundEffect[ EAT_DOT ] = Mix_LoadWAV("Source/Assets/Sound/eat dot.wav");
     soundEffect[ EAT_GHOST ] = Mix_LoadWAV("Source/Assets/Sound/eat ghost.wav");
     soundEffect[ GHOST_GO_HOME ] = Mix_LoadWAV("Source/Assets/Sound/ghost go home.wav");
     soundEffect[ GHOST_TURN_BLUE ] = Mix_LoadWAV("Source/Assets/Sound/ghost turn blue.wav");
 
-    for (int i = 0; i < 10; ++i) if (soundEffect == nullptr)
+    for (int i = 0; i < 11; ++i) if (soundEffect == nullptr)
         Console->Status( Mix_GetError() );
 
     /*

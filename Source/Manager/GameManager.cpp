@@ -122,6 +122,7 @@ void GameManager::nextLevel() {
 
 bool GameManager::clearAllCoins() const {
     return eatenCoins == TOTAL_COINS;
+    //return true;
 }
 
 int GameManager::getLevel() const {

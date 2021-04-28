@@ -145,6 +145,7 @@ void Engine::handleEvent(SDL_Event &e, std::vector<std::string> &scoreData) {
 }
 
 void Engine::render(SDL_Renderer* &renderer, const std::vector<std::string> &scoreData) {
+    tickManager->stablizeFPS();
     SDL_Rect dsRect;
     for (int i = 0; i < 28; ++i) {
         for (int j = 0; j < 31; ++j) {
@@ -188,6 +189,16 @@ void Engine::render(SDL_Renderer* &renderer, const std::vector<std::string> &sco
 
 
 void Engine::loop(bool &exitToMenu) {
+    if (gameManager->clearAllCoins()) {
+        if (waitTime > 0) --waitTime;
+        else {
+            gameManager->nextLevel();
+            tickManager->resetTick(gameManager->getLevel());
+            respawnObject();
+            map->reset();
+        }
+        return;
+    }
     if (Mix_Playing(2) || Mix_Playing(4)) return;
     if (pacman->isDead()) {
         if (runningEGBoard) {
@@ -351,10 +362,8 @@ void Engine::loop(bool &exitToMenu) {
     gameManager->handleGhostPos(pinky, inky, clyde, greendy);
 
     if (gameManager->clearAllCoins()) {
-        gameManager->nextLevel();
-        tickManager->resetTick(gameManager->getLevel());
-        respawnObject();
-        map->reset();
+        soundManager->insertPlayList(SoundManager::WINNING);
+        waitTime = 100;
     }
 }
 
