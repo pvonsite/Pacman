@@ -23,7 +23,7 @@ void Engine::init(SDL_Renderer* &renderer) {
     soundManager = new SoundManager();
     soundManager->loadSound();
     srand(time(nullptr));
-    apple = new Item(renderer, "Source/Assets/Entity/greenapple.png");
+    apple = new Item(renderer, "Source/Assets/Entity Image/greenapple.png");
     newGame();
 }
 
