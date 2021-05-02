@@ -4,7 +4,8 @@ TextureSrc::TextureSrc() {
     tileTexture = nullptr;
     entityTexture = nullptr;
     ghostScore = nullptr;
-    for (int i = 0; i < 5; ++i) ghostFrame[i] = 0;
+    pacmanFrame = 0;
+    for (int i = 0; i < 7; ++i) ghostFrame[i] = 0;
 }
 
 TextureSrc::~TextureSrc() {
@@ -17,11 +18,11 @@ TextureSrc::~TextureSrc() {
     SDL_DestroyTexture(ghostScore);
     ghostScore = nullptr;
 
-    for (int i = 0; i < 5; ++i) ghostFrame[i] = 0;
+    for (int i = 0; i < 7; ++i) ghostFrame[i] = 0;
 }
 
 bool TextureSrc::pacmanIsDead() {
-    if (pacmanFrame == 110) {
+    if (pacmanFrame == 109) {
         pacmanFrame = 0; return true;
     }
     return false;

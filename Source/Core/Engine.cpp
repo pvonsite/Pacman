@@ -25,6 +25,12 @@ void Engine::init(SDL_Renderer* &renderer) {
     srand(time(nullptr));
     apple = new Item(renderer, "Source/Assets/Entity Image/greenapple.png");
     newGame();
+    SDL_Surface* Image = IMG_Load("Source/Assets/Menu Image/nextlevel.png");
+    nextLevel = SDL_CreateTextureFromSurface(renderer, Image);
+    SDL_FreeSurface(Image);
+    Image = IMG_Load("Source/Assets/Menu Image/ready.png");
+    ready = SDL_CreateTextureFromSurface(renderer, Image);
+    SDL_FreeSurface(Image);
 }
 
 void Engine::newGame() {
@@ -54,6 +60,7 @@ void Engine::newGame() {
     }
     soundManager->insertPlayList(SoundManager::START);
     tickManager->resetTick(gameManager->getLevel());
+    tickManager->pauseTick(true);
     runningEGBoard = false;
 }
 
@@ -176,6 +183,14 @@ void Engine::render(SDL_Renderer* &renderer, const std::vector<std::string> &sco
             renderGhost(renderer, clyde , TextureSrc::CLYDE );
             if (greendy != nullptr) renderGhost(renderer, greendy, TextureSrc::GREENDY);
             if (friendy != nullptr) renderGhost(renderer, friendy, TextureSrc::FRIENDY);
+            if (Mix_Playing(2)) {
+                dsRect = {441 - 82, 285 - 15 - 7, 164, 30};
+                SDL_RenderCopy(renderer, ready, nullptr, &dsRect);
+            }
+        }
+        if (waitTime > 0) {
+            dsRect = {441 - 97, 248 - 52, 194, 104};
+            SDL_RenderCopy(renderer, nextLevel, nullptr, &dsRect);
         }
         if (Mix_Playing(4)) {
             objectTexture->renderGhostScore(renderer, gameManager->getEatenGhostPosX(), gameManager->getEatenGhostPosY(), gameManager->getEatenGhostStreak());
@@ -199,7 +214,10 @@ void Engine::loop(bool &exitToMenu) {
         }
         return;
     }
-    if (Mix_Playing(2) || Mix_Playing(4)) return;
+    if (Mix_Playing(2) || Mix_Playing(4)) {
+        if (Mix_Playing(2)) tickManager->pauseTick(true);
+        return;
+    }
     if (pacman->isDead()) {
         if (runningEGBoard) {
             switch (gameManager->getPlayerDecision()) {
@@ -290,7 +308,6 @@ void Engine::loop(bool &exitToMenu) {
         }
     }
 
-
     pacmanPosX = pacman->getPosX();
     pacmanPosY = pacman->getPosY();
     lastDir = -1;
@@ -345,7 +362,8 @@ void Engine::loop(bool &exitToMenu) {
                 greendy->setDestination(13, 11);
             else if (eatGreenApple == false)
                 greendy->setDestination(apple->getPosX(), apple->getPosY());
-            else greendy->setDestination(pacmanTileX, pacmanTileY, 2);
+            else if (!greendy->isFrighten())
+                greendy->setDestination(pacmanTileX, pacmanTileY, 2);
         }
         if (friendy != nullptr && tickManager->isFriendyChaseTime()) {
             friendy->setDestination(pacmanTileX, pacmanTileY, 1);

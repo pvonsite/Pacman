@@ -1,4 +1,5 @@
 Doan Duy Tung: 4830
+tung: 3130
 tun: 2580
 Doan: 2570
 Doan Duy Tung: 2550
@@ -7,4 +8,3 @@ Tung: 1330
 Duy Tung: 1220
 Doan Duy Tung: 860
 Tung: 540
-Doan Duy Tung: 270

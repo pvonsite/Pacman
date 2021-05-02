@@ -15,7 +15,6 @@ class SoundManager {
         int eatDotTime;
         int oldMoveType, newMoveType;
         LogStatus* Console = new LogStatus("Sound Manager");
-
         Mix_Chunk* soundEffect[11];
         std::vector<int> playList;
     public:
@@ -31,8 +30,8 @@ class SoundManager {
         static const int DEAD = 9;
         static const int WINNING = 10;
         static const int TOTAL_SOUND_EFFECT = 11;
-        static const int NORMAL_GHOST = 10;
-        static const int REVIVAL_GHOST = 11;
+        static const int NORMAL_GHOST = 11;
+        static const int REVIVAL_GHOST = 12;
 
         SoundManager();
 

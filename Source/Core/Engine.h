@@ -29,9 +29,11 @@ class Engine {
         TickManager* tickManager;
         GameManager* gameManager;
         SoundManager* soundManager;
+        SDL_Texture* nextLevel;
+        SDL_Texture* ready;
         bool runningEGBoard = false;
         bool eatGreenApple = false;
-        int waitTime = 200;
+        int waitTime = 0;
     protected:
         void newGame();
 
@@ -78,6 +80,10 @@ class Engine {
             friendy = nullptr;
             delete apple;
             apple = nullptr;
+            SDL_DestroyTexture(nextLevel);
+            nextLevel = nullptr;
+            SDL_DestroyTexture(ready);
+            ready = nullptr;
             delete objectTexture;
             objectTexture = nullptr;
             delete tickManager;
