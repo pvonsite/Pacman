@@ -11,8 +11,6 @@ typedef std::pair<int, std::pair<int, int> > IP;
 void Engine::init(SDL_Renderer* &renderer) {
     /// initialize map
     map = new Map();
-    map->findingCrossRoad();
-    map->NextCrossTileID();
     /// initialize object
     objectTexture = new TextureSrc();
     objectTexture->loadTileTexture(renderer);
@@ -419,16 +417,16 @@ void Engine::ghostMove(Ghost* &ghost) {
                 distanceUP = distanceDOWN = distanceLEFT = distanceRIGHT = __INT32_MAX__;
 
                 if (map->canChangeDir(ghostTileX, ghostTileY, Map::UP))
-                    distanceUP = (ghostTileX - ghostNextTileX) * (ghostTileX - ghostNextTileX) + (ghostTileY - 1 - ghostNextTileY) * (ghostTileY - 1 - ghostNextTileY);
+                    distanceUP = map->getDist(II(ghostTileX, ghostTileY - 1), II(ghostNextTileX, ghostNextTileY), Map::UP);
 
                 if (map->canChangeDir(ghostTileX, ghostTileY, Map::DOWN))
-                    distanceDOWN = (ghostTileX - ghostNextTileX) * (ghostTileX - ghostNextTileX) + (ghostTileY + 1 - ghostNextTileY) * (ghostTileY + 1 - ghostNextTileY);
+                    distanceDOWN = map->getDist(II(ghostTileX, ghostTileY + 1), II(ghostNextTileX, ghostNextTileY), Map::DOWN);
 
                 if (map->canChangeDir(ghostTileX, ghostTileY, Map::LEFT))
-                    distanceLEFT = (ghostTileX - 1 - ghostNextTileX) * (ghostTileX - 1 - ghostNextTileX) + (ghostTileY - ghostNextTileY) * (ghostTileY - ghostNextTileY);
+                    distanceLEFT = map->getDist(II(ghostTileX - 1, ghostTileY), II(ghostNextTileX, ghostNextTileY), Map::LEFT);
 
                 if (map->canChangeDir(ghostTileX, ghostTileY, Map::RIGHT))
-                    distanceRIGHT = (ghostTileX + 1 - ghostNextTileX) * (ghostTileX + 1 - ghostNextTileX) + (ghostTileY - ghostNextTileY) * (ghostTileY - ghostNextTileY);
+                    distanceRIGHT = map->getDist(II(ghostTileX + 1, ghostTileY), II(ghostNextTileX, ghostNextTileY), Map::RIGHT);
 
                 int distanceMIN;
                 if (ghostOldDir == Map::UP) {
@@ -486,8 +484,10 @@ void Engine::ghostMove(Ghost* &ghost) {
 
 void Engine::pacmanMeatGhost(Ghost* &ghost) {
     if (ghost->isDead()) return;
-    if ((pacman->getPosX() == ghost->getPosX() && abs(pacman->getPosY() - ghost->getPosY()) <= 3) ||
-        (pacman->getPosY() == ghost->getPosY() && abs(pacman->getPosX() - ghost->getPosX()) <= 3)) {
+    int distance = (pacman->getPosX() - ghost->getPosX()) * (pacman->getPosX() - ghost->getPosX()) + (pacman->getPosY() - ghost->getPosY()) * (pacman->getPosY() - ghost->getPosY());
+    if (distance <= 9) {
+    //if ((pacman->getPosX() == ghost->getPosX() && abs(pacman->getPosY() - ghost->getPosY()) <= 3) ||
+        //(pacman->getPosY() == ghost->getPosY() && abs(pacman->getPosX() - ghost->getPosX()) <= 3)) {
         if (ghost->isFrighten()) {
             gameManager->eatGhost(ghost->getPosX(), ghost->getPosY());
             ghost->setDead(true);

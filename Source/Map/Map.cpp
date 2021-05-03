@@ -1,9 +1,11 @@
 #include "Map.h"
+#include <queue>
 
 typedef std::pair<int, int> II;
 
 bool firstInit = true;
 int premanMap[31][28];
+int color[31][28];
 
 Map::Map() {
     if (firstInit) {
@@ -28,6 +30,9 @@ Map::Map() {
         for (int j = 0; j < MAP_WIDTH; ++j)
             tile[i][j] = premanMap[i][j];
 
+    findingCrossRoad();
+    NextCrossTileID();
+    calculateDistance();
 }
 
 int Map::getTileID(int x, int y) {
@@ -90,7 +95,7 @@ void Map::findingCrossRoad() {
 void Map::NextCrossTileID() {
     for (int y = 0; y < MAP_HEIGHT; ++y) {
         nextCrossID[y][0][LEFT] = II(-1, -1);
-        for (int x = 1; x < MAP_WIDTH; ++x) {
+        for (int x = 0; x < MAP_WIDTH; ++x) {
             nextCrossID[y][x][LEFT] = II(-1, -1);
 
             if ( !isWall(std::pair<int, int> (x, y)) ) {
@@ -100,7 +105,7 @@ void Map::NextCrossTileID() {
         }
 
         nextCrossID[y][MAP_WIDTH - 1][RIGHT] = II(-1, -1);
-        for (int x = MAP_WIDTH - 2; x >= 0; --x) {
+        for (int x = MAP_WIDTH - 1; x >= 0; --x) {
             nextCrossID[y][x][RIGHT] = II(-1, -1);
 
             if ( !isWall(std::pair<int, int> (x, y)) ) {
@@ -112,7 +117,7 @@ void Map::NextCrossTileID() {
 
     for (int x = 0; x < MAP_WIDTH; ++x) {
         nextCrossID[0][x][UP] = II(-1, -1);
-        for (int y = 1; y < MAP_HEIGHT; ++y) {
+        for (int y = 0; y < MAP_HEIGHT; ++y) {
             nextCrossID[y][x][UP] = II(-1, -1);
 
             if ( !isWall(std::pair<int, int> (x, y)) ) {
@@ -122,7 +127,7 @@ void Map::NextCrossTileID() {
         }
 
         nextCrossID[MAP_HEIGHT - 1][x][DOWN] = II(-1, -1);
-        for (int y = MAP_HEIGHT - 2; y >= 0; --y) {
+        for (int y = MAP_HEIGHT - 1; y >= 0; --y) {
             nextCrossID[y][x][DOWN] = II(-1, -1);
 
             if ( !isWall(std::pair<int, int> (x, y)) ) {
@@ -131,6 +136,57 @@ void Map::NextCrossTileID() {
             }
         }
     }
+}
+
+void Map::calculateDistance() {
+    for (int x = 0; x < MAP_WIDTH; ++x)
+        for (int y = 0; y < MAP_HEIGHT; ++y)
+            for (int u = 0; u < MAP_WIDTH; ++u)
+                for (int v = 0; v < MAP_HEIGHT; ++v)
+                    for (int dir = 0; dir < 4; ++dir)
+                        dist[x * MAP_HEIGHT + y][u * MAP_HEIGHT + v][dir] = -1;
+    //std::cout << 1;
+    int id = 0;
+    int dh[4] = { 0, 1, 0, -1};
+    int dc[4] = {-1, 0, 1,  0};
+    int dis[MAP_WIDTH * MAP_HEIGHT];
+    std::queue< std::pair<int, int> > visitNode;
+    for (int x = 0; x < MAP_WIDTH; ++x) {
+        for (int y = 0; y < MAP_HEIGHT; ++y) {
+            if (isWall(std::pair<int, int> (x, y))) continue;
+            if (y == 14 && (x == 0 || x == 27)) continue;
+
+            for (int startDir = 0; startDir < 4; ++ startDir) {
+                int xn = x + dh[startDir], yn = y + dc[startDir];
+                if (isWall(std::pair<int, int> (xn, yn))) continue;
+                for (int i = 0; i < MAP_HEIGHT * MAP_WIDTH; ++i) dis[i] = -1;
+                ++id;
+                color[yn][xn] = id;
+                dis[xn * MAP_HEIGHT + yn] = 0;
+                visitNode.push(std::pair<int, int> (yn * MAP_WIDTH + xn, startDir));
+                while (!visitNode.empty()) {
+                    int curx = visitNode.front().first % MAP_WIDTH,
+                        cury = visitNode.front().first / MAP_WIDTH,
+                        lasDir = visitNode.front().second;
+                    visitNode.pop();
+                    if (cury == 14 && (curx == 0 || curx == 27)) continue;
+                    for (int dir = 0; dir < 4; ++dir) {
+                        int u = curx + dh[dir], v = cury + dc[dir];
+                        if (lasDir % 2 == dir % 2 && dir != lasDir) continue;
+                        if (isWall(std::pair<int, int> (u, v))) continue;
+                        if (color[v][u] != id) {
+                            color[v][u] = id;
+                            dis[u * MAP_HEIGHT + v] = dis[curx * MAP_HEIGHT + cury] + 1;
+                            visitNode.push(std::pair<int, int> (v * MAP_WIDTH + u, dir));
+                        }
+                    }
+                }
+                for (int i = 0; i < MAP_WIDTH * MAP_HEIGHT; ++i)
+                    dist[xn * MAP_HEIGHT + yn][i][startDir] = dis[i];
+            }
+        }
+    }
+    std::cout << "Done!";
 }
 
 int Map::eatCoins(const int &pacmanTileX, const int &pacmanTileY) {
@@ -143,6 +199,15 @@ int Map::eatCoins(const int &pacmanTileX, const int &pacmanTileY) {
         return 27;
     }
     return 0;
+}
+
+int Map::getDist(std::pair<int, int> start, std::pair<int, int> end, int startDir) {
+    if (isWall(end)) return (start.first - end.first) * (start.first - end.first) + (start.second - end.second) * (start.second - end.second);
+    else {
+        if (dist[start.first * MAP_HEIGHT + start.second][end.first * MAP_HEIGHT + end.second][startDir] == -1)
+            return (start.first - end.first) * (start.first - end.first) + (start.second - end.second) * (start.second - end.second);
+        else return dist[start.first * MAP_HEIGHT + start.second][end.first * MAP_HEIGHT + end.second][startDir];
+    }
 }
 
 void Map::reset() {

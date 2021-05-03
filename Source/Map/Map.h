@@ -17,8 +17,15 @@ class Map {
         LogStatus* Console = new LogStatus("Map");
 
         int tile[MAP_HEIGHT][MAP_WIDTH];
+        int dist[MAP_WIDTH * MAP_HEIGHT][MAP_WIDTH * MAP_HEIGHT][4];
         std::pair<int, int> nextCrossID[MAP_HEIGHT][MAP_WIDTH][4];
         bool markCross[MAP_HEIGHT][MAP_WIDTH][4];
+
+        void findingCrossRoad();
+
+        void calculateDistance();
+
+        void NextCrossTileID();
     public:
         static const int UP = 0;
         static const int RIGHT = 1;
@@ -44,11 +51,9 @@ class Map {
 
         bool besideCrossIsWall(std::pair<int, int> Cross, int newDir);
 
-        void findingCrossRoad();
-
-        void NextCrossTileID();
-
         int eatCoins(const int &pacmanTileX, const int &pacmanTileY);
+
+        int getDist(std::pair<int, int> start, std::pair<int, int> end, int startDir);
 
         void reset();
 };
