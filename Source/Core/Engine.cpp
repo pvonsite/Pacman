@@ -163,17 +163,6 @@ void Engine::render(SDL_Renderer* &renderer, const std::vector<std::string> &sco
     if (!runningEGBoard) {
         int dir = -1;
         if (!pacman->emptyDirStack()) dir = pacman->getDir();
-        if (pacman->isDead()) {
-            if (objectTexture->pacmanIsDead()) {
-                if (gameManager->getRemainLife() > 0) respawnObject();
-                else {
-                    runningEGBoard = true;
-                    gameManager->checkScoreData(scoreData);
-                }
-            }
-            else objectTexture->renderPacmanTexture(renderer, pacman->getPosX(), pacman->getPosY(), TextureSrc::DEAD_PACMAN);
-        }
-        else objectTexture->renderPacmanTexture(renderer, pacman->getPosX(), pacman->getPosY(), dir);
         if (!pacman->isDead()) {
             renderGhost(renderer, blinky, TextureSrc::BLINKY);
             renderGhost(renderer, pinky , TextureSrc::PINKY );
@@ -186,6 +175,17 @@ void Engine::render(SDL_Renderer* &renderer, const std::vector<std::string> &sco
                 SDL_RenderCopy(renderer, ready, nullptr, &dsRect);
             }
         }
+        if (pacman->isDead()) {
+            if (objectTexture->pacmanIsDead()) {
+                if (gameManager->getRemainLife() > 0) respawnObject();
+                else {
+                    runningEGBoard = true;
+                    gameManager->checkScoreData(scoreData);
+                }
+            }
+            else objectTexture->renderPacmanTexture(renderer, pacman->getPosX(), pacman->getPosY(), TextureSrc::DEAD_PACMAN);
+        }
+        else objectTexture->renderPacmanTexture(renderer, pacman->getPosX(), pacman->getPosY(), dir);
         if (waitTime > 0) {
             dsRect = {441 - 97, 248 - 52, 194, 104};
             SDL_RenderCopy(renderer, nextLevel, nullptr, &dsRect);
