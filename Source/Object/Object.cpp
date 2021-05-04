@@ -81,6 +81,6 @@ void Object::resetObjectTile(const int tileX, const int tileY) {
     this->tileY = tileY;
     dead = false;
     velX = velY = 0;
-    scrPosX = tileX * 16 + 8;
+    scrPosX = tileX * 16;
     scrPosY = tileY * 16;
 }

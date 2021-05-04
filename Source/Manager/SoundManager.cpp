@@ -46,6 +46,7 @@ void SoundManager::insertPlayList(const int soundID) {
         eatDotTime = 0;         Mix_Pause(3);
         Mix_Pause(1);
         if (soundID == WINNING) oldMoveType = MOVE_0;
+        else oldMoveType = -1;
         Mix_PlayChannel(2, soundEffect[soundID], 0);
     }
 }
@@ -56,7 +57,7 @@ void SoundManager::loadSound() {
     soundEffect[ MOVE_2 ] = Mix_LoadWAV("Source/Assets/Sound/move 2.wav");
     soundEffect[ MOVE_3 ] = Mix_LoadWAV("Source/Assets/Sound/move 3.wav");
     soundEffect[ START  ] = Mix_LoadWAV("Source/Assets/Sound/start.wav");
-    soundEffect[ DEAD   ] = Mix_LoadWAV("Source/Assets/Sound/dead.wav");
+    soundEffect[ DEAD   ] = Mix_LoadWAV("Source/Assets/Sound/dead2.wav");
     soundEffect[ WINNING ] = Mix_LoadWAV("Source/Assets/Sound/next level.wav");
     soundEffect[ EAT_DOT ] = Mix_LoadWAV("Source/Assets/Sound/eat dot.wav");
     soundEffect[ EAT_GHOST ] = Mix_LoadWAV("Source/Assets/Sound/eat ghost.wav");

@@ -435,19 +435,19 @@ void Engine::ghostMove(Ghost* &ghost) {
                     else if (distanceMIN == distanceLEFT) ghost->setDir(Map::LEFT);
                     else ghost->setDir(Map::RIGHT);
                 }
-                if (ghostOldDir == Map::DOWN) {
+                else if (ghostOldDir == Map::DOWN) {
                     distanceMIN = std::min(distanceDOWN, std::min(distanceLEFT, distanceRIGHT));
                     if (distanceMIN == distanceDOWN) ghost->setDir(Map::DOWN);
                     else if (distanceMIN == distanceLEFT) ghost->setDir(Map::LEFT);
                     else ghost->setDir(Map::RIGHT);
                 }
-                if (ghostOldDir == Map::LEFT) {
+                else if (ghostOldDir == Map::LEFT) {
                     distanceMIN = std::min(distanceUP, std::min(distanceDOWN, distanceLEFT));
                     if (distanceMIN == distanceUP) ghost->setDir(Map::UP);
                     else if (distanceMIN == distanceDOWN) ghost->setDir(Map::DOWN);
                     else ghost->setDir(Map::LEFT);
                 }
-                if (ghostOldDir == Map::RIGHT) {
+                else if (ghostOldDir == Map::RIGHT) {
                     distanceMIN = std::min(distanceUP, std::min(distanceRIGHT, distanceDOWN));
                     if (distanceMIN == distanceUP) ghost->setDir(Map::UP);
                     else if (distanceMIN == distanceRIGHT) ghost->setDir(Map::RIGHT);
@@ -487,7 +487,7 @@ void Engine::pacmanMeatGhost(Ghost* &ghost) {
     int distance = (pacman->getPosX() - ghost->getPosX()) * (pacman->getPosX() - ghost->getPosX()) + (pacman->getPosY() - ghost->getPosY()) * (pacman->getPosY() - ghost->getPosY());
     if (distance <= 9) {
     //if ((pacman->getPosX() == ghost->getPosX() && abs(pacman->getPosY() - ghost->getPosY()) <= 3) ||
-        //(pacman->getPosY() == ghost->getPosY() && abs(pacman->getPosX() - ghost->getPosX()) <= 3)) {
+    //    (pacman->getPosY() == ghost->getPosY() && abs(pacman->getPosX() - ghost->getPosX()) <= 3)) {
         if (ghost->isFrighten()) {
             gameManager->eatGhost(ghost->getPosX(), ghost->getPosY());
             ghost->setDead(true);

@@ -35,8 +35,6 @@ class Engine {
         bool eatGreenApple = false;
         int waitTime = 0;
     protected:
-        void newGame();
-
         void respawnObject();
 
         void ghostMove(Ghost* &ghost);
@@ -93,6 +91,8 @@ class Engine {
             delete soundManager;
             soundManager = nullptr;
         }
+
+        void newGame();
 
         void init(SDL_Renderer* &renderer);
 

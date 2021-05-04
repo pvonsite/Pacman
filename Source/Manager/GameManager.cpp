@@ -133,7 +133,7 @@ void GameManager::handleGhostPos(Ghost* &pinky, Ghost* &inky, Ghost* &clyde, Gho
     if (pinky->isInCage() && eatenCoins >= PINKY_COIN_LIMIT) pinky->respawn(Ghost::GHOST_START_TILE_X, Ghost::GHOST_START_TILE_Y, false);
     if (inky ->isInCage() && eatenCoins >=  INKY_COIN_LIMIT) inky ->respawn(Ghost::GHOST_START_TILE_X, Ghost::GHOST_START_TILE_Y, false);
     if (clyde->isInCage() && eatenCoins >= CLYDE_COIN_LIMIT) clyde->respawn(Ghost::GHOST_START_TILE_X, Ghost::GHOST_START_TILE_Y, false);
-    if (getRemainCoin() < 100 && greendy != nullptr && greendy->isInCage()) greendy->respawn(Ghost::GHOST_START_TILE_X, Ghost::GHOST_START_TILE_Y, false);
+    if (getRemainCoin() < 244 && greendy != nullptr && greendy->isInCage()) greendy->respawn(Ghost::GHOST_START_TILE_X, Ghost::GHOST_START_TILE_Y, false);
 }
 
 void GameManager::renderHUD(SDL_Renderer* &renderer) {

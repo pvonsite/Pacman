@@ -84,6 +84,7 @@ void Window::runGame() {
     SDL_Event e;
     runningMenu = true;
     bool startGame = false;
+    playState = new PlayStateManager();
 
     while (Running) {
 
@@ -107,11 +108,11 @@ void Window::runGame() {
         }
         if (!runningMenu) {
             if (!startGame) {
-                playState = new PlayStateManager();
                 playState->newGame(renderer);
                 startGame = true;
             }
             playState->runGame(runningMenu);
+            if (runningMenu) startMenu->reOpen(), startGame = false;
         }
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);

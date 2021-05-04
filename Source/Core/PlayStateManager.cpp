@@ -16,9 +16,16 @@ PlayStateManager::~PlayStateManager() {
 }
 
 void PlayStateManager::newGame(SDL_Renderer* &renderer) {
-    this->scoreData = scoreData;
-    pauseMenu->init(renderer, "Source/Assets/Menu Image/Pacman Pause Menu.png", pauseMenuButtonText);
-    engine->init(renderer);
+    static bool inited = false;
+    if (!inited) {
+        this->scoreData = scoreData;
+        pauseMenu->init(renderer, "Source/Assets/Menu Image/Pacman Pause Menu.png", pauseMenuButtonText);
+        engine->init(renderer);
+        inited = true;
+    }
+    else {
+        engine->newGame();
+    }
 }
 
 void PlayStateManager::runGame(bool &exitToMenu) {
@@ -44,6 +51,10 @@ void PlayStateManager::handleEvent(SDL_Event& e, SDL_Renderer* &renderer, bool &
                 case Menu::RESUME:
                     runPauseMenu = false;
                     for (int channel : muteChannel) Mix_Resume(channel);
+                    break;
+                case Menu::PLAY_BUTTON_PRESSED:
+                    runPauseMenu = false;
+                    engine->newGame();
                     break;
                 case Menu::EXIT_BUTTON_PRESSED:
                     exitToMainMenu = true;
