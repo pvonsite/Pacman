@@ -12,7 +12,7 @@ All the codes in my project is coded by myself.
 1. [How to Download and Install the game](#how-to-download-and-install-the-game)
 2. [How to Play the game](#how-to-play-the-game)
 3. [Game Detail](#game-detail)
-4. [Game algorithm](#game algorithm) 
+4. [Game algorithm](#game-algorithm) 
 5. [Image and Sound source](#image-and-sound-source)
 
 
