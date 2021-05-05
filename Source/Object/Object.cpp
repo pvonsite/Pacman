@@ -46,8 +46,9 @@ void Object::changeVelocityDir(int velX, int velY, int dir) {
     this->dir = dir;
 }
 
-void Object::setDead(bool status) {
+void Object::setDead(bool status, int id) {
     dead = status;
+    if (id == 1) return;
     scrPosX = tileX * 16;
     scrPosY = tileY * 16;
 }

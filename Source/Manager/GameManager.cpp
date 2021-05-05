@@ -6,6 +6,7 @@ GameManager::GameManager(SDL_Renderer* &renderer) {
     level = 1;
     life = 3;
     eatenCoins = 0;
+    eatenGhost = -1;
     scores = 0;
     playername = "Unknown";
     playerDecision = WAITING;
@@ -55,12 +56,15 @@ void GameManager::reset() {
     life = 3;
     scores = 0;
     eatenCoins = 0;
+    eatenGhost = -1;
     currentBut = 1;
     PINKY_COIN_LIMIT = 5;
     INKY_COIN_LIMIT = 30;
     CLYDE_COIN_LIMIT = 90;
     playerDecision = WAITING;
     pos = -1;
+    yesBut->setStatus(Button::BUTTON_IN);
+    noBut->setStatus(Button::BUTTON_OUT);
 }
 
 void GameManager::eatCoins(const int typeOfCoin) {
@@ -107,6 +111,9 @@ int GameManager::getRemainLife() const {
 void GameManager::nextLevel() {
     ++level;
     eatenCoins = 0;
+    eatenGhost = -1;
+    currentBut = 1;
+    playerDecision = WAITING;
     if (level <= 3) {
         PINKY_COIN_LIMIT = 5;
         INKY_COIN_LIMIT = 30;

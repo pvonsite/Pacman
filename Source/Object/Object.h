@@ -40,7 +40,7 @@ class Object {
 
         void changeVelocityDir(int velX, int velY, int dir);
 
-        void setDead(bool status);
+        void setDead(bool status, int id = 0);
 
         void resetObjectTile(const int tileX, const int tileY);
 

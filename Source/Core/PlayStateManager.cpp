@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+using namespace std;
+
 PlayStateManager::PlayStateManager() {
     engine = new Engine();
     pauseMenu = new Menu(262, 170, pauseMenuButtonText.size(), 320, 30);

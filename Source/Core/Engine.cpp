@@ -63,7 +63,9 @@ void Engine::newGame() {
 }
 
 void Engine::respawnObject() {
-    pacman->respawn();
+    delete pacman;
+    pacman = new Pacman();
+    //pacman->respawn();
     soundManager->reset();
     delete blinky;
     blinky = new Ghost(13, 11, false);
@@ -97,7 +99,7 @@ void Engine::handleEvent(SDL_Event &e, std::vector<std::string> &scoreData) {
             int lastDir = -1;
             int pacmanTileX = pacman->getTileX();
             int pacmanTileY = pacman->getTileY();
-            int pacmanPosX  = pacman->  getPosX();
+            int pacmanPosX  = pacman->getPosX();
             int pacmanPosY  = pacman->getPosY();
 
             if (!pacman->emptyDirStack()) lastDir = pacman->getDir();
@@ -218,6 +220,7 @@ void Engine::loop(bool &exitToMenu) {
     }
     if (pacman->isDead()) {
         if (runningEGBoard) {
+            cout << gameManager->getPlayerDecision() << endl;
             switch (gameManager->getPlayerDecision()) {
                 case GameManager::AGAIN:
                     newGame();
@@ -239,7 +242,7 @@ void Engine::loop(bool &exitToMenu) {
     if (!pacman->isDead() && lastDir != -1) {
         if (pacmanTileX * 16 == pacmanPosX && pacmanTileY * 16 == pacmanPosY) {
             if (map->iscrossRoad(pacmanTileX, pacmanTileY)) {
-                if (!pacman->emptySpecial()) pacman->turn();
+                if (!pacman->emptySpecial() && pacman->getSpecial() == II(pacmanTileX, pacmanTileY)) pacman->turn();
             }
             if (map->canChangeDir(pacmanTileX, pacmanTileY, pacman->getDir())) pacman->moving();
             else pacman->stopmoving();
@@ -496,7 +499,7 @@ void Engine::pacmanMeatGhost(Ghost* &ghost) {
             soundManager->insertPlayList(SoundManager::GHOST_GO_HOME);
         }
         else {
-            pacman->setDead(true);
+            pacman->setDead(true, 1);
             gameManager->lostALife();
             soundManager->insertPlayList(SoundManager::DEAD);
             tickManager->pauseTick(true);
