@@ -50,7 +50,7 @@ All the codes in my project is coded by myself.
     About the ghosts, each one of them has their own AI. That means that each ghost behaves differently.
 
     ##### Chase
-    - [`Blinky`](): chasing Pacman.   
+    - [`Blinky`]() ![alt text](https://github.com/[FMLPhongVan]/[Pacman]/blob/[master]/Source/Assets/Entity%20Image/blinky%20icon.png): chasing Pacman.   
     - [`Pinky`](): go to the 4 tiles in front of Pacman's direction.
     - [`Inky`](): go to the location created by blinky symmetry across the Pacman.
     - [`Clyde`](): chase Pacman if the distance between him and Pacman is greater than 8 tiles.  
