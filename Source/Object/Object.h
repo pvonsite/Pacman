@@ -24,6 +24,10 @@ class Object {
 
         Object(int tileX, int tileY, int velX = 0, int velY = 0);
 
+        ~Object() {
+
+        }
+
         void move();
 
         bool isDead() const;

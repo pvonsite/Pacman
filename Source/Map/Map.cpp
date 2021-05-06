@@ -95,7 +95,7 @@ void Map::findingCrossRoad() {
 void Map::NextCrossTileID() {
     for (int y = 0; y < MAP_HEIGHT; ++y) {
         nextCrossID[y][0][LEFT] = II(-1, -1);
-        for (int x = 0; x < MAP_WIDTH; ++x) {
+        for (int x = 1; x < MAP_WIDTH; ++x) {
             nextCrossID[y][x][LEFT] = II(-1, -1);
 
             if ( !isWall(std::pair<int, int> (x, y)) ) {
@@ -105,7 +105,7 @@ void Map::NextCrossTileID() {
         }
 
         nextCrossID[y][MAP_WIDTH - 1][RIGHT] = II(-1, -1);
-        for (int x = MAP_WIDTH - 1; x >= 0; --x) {
+        for (int x = MAP_WIDTH - 2; x >= 0; --x) {
             nextCrossID[y][x][RIGHT] = II(-1, -1);
 
             if ( !isWall(std::pair<int, int> (x, y)) ) {
@@ -117,7 +117,7 @@ void Map::NextCrossTileID() {
 
     for (int x = 0; x < MAP_WIDTH; ++x) {
         nextCrossID[0][x][UP] = II(-1, -1);
-        for (int y = 0; y < MAP_HEIGHT; ++y) {
+        for (int y = 1; y < MAP_HEIGHT; ++y) {
             nextCrossID[y][x][UP] = II(-1, -1);
 
             if ( !isWall(std::pair<int, int> (x, y)) ) {
@@ -127,7 +127,7 @@ void Map::NextCrossTileID() {
         }
 
         nextCrossID[MAP_HEIGHT - 1][x][DOWN] = II(-1, -1);
-        for (int y = MAP_HEIGHT - 1; y >= 0; --y) {
+        for (int y = MAP_HEIGHT - 2; y >= 0; --y) {
             nextCrossID[y][x][DOWN] = II(-1, -1);
 
             if ( !isWall(std::pair<int, int> (x, y)) ) {

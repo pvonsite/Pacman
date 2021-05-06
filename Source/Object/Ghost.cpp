@@ -33,7 +33,10 @@ void Ghost::setFrighten(const bool status) {
     if (isInCage()) return;
     if (frighten != status) reTilePos();
     frighten = status;
-    if (status) ghostDir = (ghostDir + 2) % 4;
+    if (status) {
+        ghostDir = (ghostDir + 2) % 4;
+        accele = 1;
+    }
 }
 
 void Ghost::setScattering(const bool status) {

@@ -16,7 +16,6 @@ class SoundManager {
         int oldMoveType, newMoveType;
         LogStatus* Console = new LogStatus("Sound Manager");
         Mix_Chunk* soundEffect[11];
-        std::vector<int> playList;
     public:
         static const int MOVE_0 = 0;
         static const int MOVE_1 = 1;

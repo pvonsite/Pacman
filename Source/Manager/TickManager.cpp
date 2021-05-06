@@ -3,6 +3,7 @@
 
 TickManager::TickManager() {
     lastTick = SDL_GetTicks();
+    FlastTick = GlastTick = SDL_GetTicks();
     mode.push( CID(CHASING_MODE, oo) );
     mode.push( CID(SCATTERING_MODE, SCATTERING_TIME) );
     mode.push( CID(CHASING_MODE, CHASING_TIME) );

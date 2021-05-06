@@ -6,8 +6,6 @@ using namespace std;
 SoundManager::SoundManager() {
     for (int i = 0; i < 11; ++i)
         soundEffect[i] = nullptr;
-
-    playList.clear();
     eatDotTime = 0;
     oldMoveType = -1;
     newMoveType = MOVE_0;

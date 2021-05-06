@@ -66,7 +66,6 @@ void Engine::respawnObject() {
     delete pacman;
     pacman = new Pacman();
     //pacman->respawn();
-    soundManager->reset();
     delete blinky;
     blinky = new Ghost(13, 11, false);
     delete pinky;
@@ -83,6 +82,7 @@ void Engine::respawnObject() {
         delete friendy;
         friendy = new Ghost(14, 11, false);
     }
+    soundManager->reset();
     tickManager->pauseTick(false);
 }
 
@@ -220,7 +220,6 @@ void Engine::loop(bool &exitToMenu) {
     }
     if (pacman->isDead()) {
         if (runningEGBoard) {
-            cout << gameManager->getPlayerDecision() << endl;
             switch (gameManager->getPlayerDecision()) {
                 case GameManager::AGAIN:
                     newGame();
