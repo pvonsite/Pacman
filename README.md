@@ -10,6 +10,8 @@ Tất cả các code trong project được viết bởi mình, không tham kh�
 
 Lần đầu viết một project nên code có hơi khó đọc.
 
+Link video: https://youtu.be/kDltl4RT5_U
+
 ## Mục lục
 1. [Cách tải và cài đặt game](#cách-tải-và-chơi-game)
 2. [Cách chơi game](#cách-chơi-game)
